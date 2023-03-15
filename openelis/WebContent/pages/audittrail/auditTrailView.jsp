@@ -4,7 +4,8 @@
 	us.mn.state.health.lims.common.util.StringUtil,
 	us.mn.state.health.lims.common.provider.validation.AccessionNumberValidatorFactory,
     us.mn.state.health.lims.common.util.Versioning,
-	us.mn.state.health.lims.common.provider.validation.IAccessionNumberValidator"
+	us.mn.state.health.lims.common.provider.validation.IAccessionNumberValidator,
+    us.mn.state.health.lims.common.util.SystemConfiguration"
 %>
 
 <%@ taglib uri="/tags/struts-bean" prefix="bean" %>
@@ -27,7 +28,12 @@
 %>
 
 <link rel="stylesheet" media="screen" type="text/css" href="<%=basePath%>css/bootstrap.css?ver=<%= Versioning.getBuildNumber() %>" />
-<link rel="stylesheet" media="screen" type="text/css" href="<%=basePath%>css/openElisCore.css?ver=<%= Versioning.getBuildNumber() %>" />
+
+<% if (SystemConfiguration.getInstance().getDefaultLocale().toLanguageTag().equalsIgnoreCase("ar-AR")) { %>
+   <link rel="stylesheet" media="screen" type="text/css" href="<%=basePath%>css/openElisCore-rtl.css?ver=<%= Versioning.getBuildNumber() %>" />
+<% } else { %>
+   <link rel="stylesheet" media="screen" type="text/css" href="<%=basePath%>css/openElisCore.css?ver=<%= Versioning.getBuildNumber() %>" />
+<% } %>
 
 <script type="text/javascript" src="scripts/utilities.js?ver=<%= Versioning.getBuildNumber() %>" ></script>
 

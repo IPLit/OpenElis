@@ -252,7 +252,7 @@ jQuery(function(){
 	<table style="width:100%" class="edit-sample">
 	<tr>
 		<th rowspan="2" id="accession"><%=StringUtil.getContextualMessageForKey("quick.entry.accession.number")%></th>
-		<th colspan="4" id="patient" >Patient</th>
+		<th colspan="4" id="patient" ><bean:message key="banner.menu.patient"/></th>
 <!-- 		<th rowspan="2" id="receptionDate" >Reception Date</th>  -->
 	</tr>
 	<tr>
