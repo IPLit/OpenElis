@@ -46,7 +46,7 @@ public class CSVPatient extends CSVEntity {
     public String district;
     @CSVHeader(name="State")
     public String state;
-    @CSVHeader(name="Father/Husband's Name")
+    @CSVHeader(name="Mother's Name")
     public String fatherOrHusbandsName;
     @CSVHeader(name="Occupation")
     public String occupation;

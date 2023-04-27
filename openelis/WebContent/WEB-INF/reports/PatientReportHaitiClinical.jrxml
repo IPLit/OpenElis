@@ -211,7 +211,7 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement verticalAlignment="Middle"/>
-					<text><![CDATA[Father/Husband's Name]]></text>
+					<text><![CDATA[Mother's Name]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement x="310" y="80" width="155" height="14"></reportElement>
