@@ -113,7 +113,7 @@ public class PatientPersister implements EntityPersister<CSVPatient> {
             patientIdentityDAO.insertData(getPatientIdentity(newPatient, BahmniPatientService.REGISTRATION_KEY_NAME,
                     csvPatient.registrationNumber));
             patientIdentityDAO.insertData(getPatientIdentity(newPatient, BahmniPatientService.PRIMARY_RELATIVE_KEY_NAME,
-                    csvPatient.fatherOrHusbandsName));
+                    csvPatient.mothersName));
             patientIdentityDAO.insertData(getPatientIdentity(newPatient, BahmniPatientService.OCCUPATION_KEY_NAME,
                     csvPatient.occupation));
 
