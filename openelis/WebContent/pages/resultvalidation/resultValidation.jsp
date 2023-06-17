@@ -295,7 +295,7 @@ function enableOnlyForRemark(index, resultType, isReferredOut) {
 
 </script>
 <logic:notEmpty name="patientId">
-    <h3><span>PatientID: </span><span><%=patientId%></span></h3>
+    <h3><span><bean:message key="resultsentry.patientId"/>:</span><span><%=patientId%></span></h3>
 </logic:notEmpty>
 
 <div class="btn-block">
