@@ -213,7 +213,6 @@
 						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="DejaVu Sans"/>
 					</textElement>
 					<text><![CDATA[Mother's Name]]></text>
 				</staticText>
@@ -226,7 +225,9 @@
 						<bottomPen lineWidth="0.5"/>
 						<rightPen lineWidth="0.5"/>
 					</box>
-					<textElement verticalAlignment="Middle"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans"/>
+					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{primaryRelative}]]></textFieldExpression>
 				</textField>
                 <staticText>
