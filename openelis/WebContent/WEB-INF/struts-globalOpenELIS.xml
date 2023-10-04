@@ -44,6 +44,7 @@
             <form-property name="sampleXML" type="java.lang.String" initial=""/>
             <form-property name="buttonText" type="java.lang.String" initial=""/>
             <form-property name="collapsePatientInfo" type="java.lang.Boolean" initial="false"/>
+            <form-property name="isPanelEditable" type="java.lang.Boolean" initial="false"/>
             <form-property name="patientProperties"
                            type="us.mn.state.health.lims.patient.action.bean.PatientManagmentInfo"/>
             <form-property name="patientClinicalProperties"

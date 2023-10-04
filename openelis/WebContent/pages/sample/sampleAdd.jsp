@@ -14,6 +14,7 @@
 <bean:define id="formName" value='<%=(String) request.getAttribute(IActionConstants.FORM_NAME)%>' />
 <bean:define id="entryDate" name="<%=formName%>" property="currentDate" />
 <bean:define id="patientId" value='<%= request.getParameter("patientId") == null || request.getParameter("patientId").isEmpty() ? "" : request.getParameter("patientId")%>' />
+<bean:define id="isPanelEditable" name='<%=formName%>' property='isPanelEditable' type="java.lang.Boolean" />
 
 
 
@@ -684,6 +685,9 @@ function samplesHaveBeenAdded(){
 		</tr>
 	</Table>
 
+<form>
+    <fieldset <%=isPanelEditable ? "" : "disabled='true'" %> >
+
 	<div id="samplesAdded" class="colorFill" style="display: none; ">
 
 		<table id="samplesAddedTable" width=<%=useCollectionDate ? "100%" : "80%" %>>
@@ -770,3 +774,5 @@ function samplesHaveBeenAdded(){
 	</table>
 	</div>
 	</div>
+    </fieldset>
+</form>

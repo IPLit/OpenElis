@@ -513,7 +513,7 @@ function capitalizeValue( text){
 	$("requesterId").value = text.toUpperCase();
 }
 </script>
-
+<bean:define id="isPanelEditable" name='<%=formName%>' property='isPanelEditable' type="java.lang.Boolean" />
 <bean:define id="orderTypeList"  name='<%=formName%>' property="orderTypes" type="java.util.Collection"/>
 <html:hidden property="currentDate" name="<%=formName%>" styleId="currentDate"/>
 <html:hidden property="domain" name="<%=formName%>" value="<%=genericDomain%>" styleId="domain"/>
@@ -521,7 +521,12 @@ function capitalizeValue( text){
 <html:hidden property="newRequesterName" name='<%=formName %>' styleId="newRequesterName" />
 <div id=sampleEntryPage <%= (orderTypeList == null || orderTypeList.size() == 0)? "" : "style='display:none'"  %>>
     <jsp:include page="<%=fieldsetToJspMap.get(fieldsetOrder.get(0))%>" />
+    <form>
+    <fieldset <%=isPanelEditable ? "" : "disabled='true'" %> >
+
     <jsp:include page="<%=fieldsetToJspMap.get(fieldsetOrder.get(1))%>" />
+    </fieldset>
+    </form>
 
     <jsp:include page="<%=fieldsetToJspMap.get(fieldsetOrder.get(2))%>" />
 </div>

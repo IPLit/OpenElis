@@ -28,6 +28,7 @@ import us.mn.state.health.lims.common.services.DisplayListService.ListType;
 import us.mn.state.health.lims.common.util.ConfigurationProperties;
 import us.mn.state.health.lims.common.util.ConfigurationProperties.Property;
 import us.mn.state.health.lims.common.util.DateUtil;
+import us.mn.state.health.lims.login.daoimpl.UserModuleDAOImpl;
 import us.mn.state.health.lims.patient.action.bean.PatientManagmentInfo;
 import us.mn.state.health.lims.provider.dao.ProviderDAO;
 import us.mn.state.health.lims.provider.daoimpl.ProviderDAOImpl;
@@ -40,6 +41,7 @@ import us.mn.state.health.lims.siteinformation.valueholder.SiteInformation;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * The SampleEntryAction class represents the initial Action for the SampleEntry
@@ -101,6 +103,7 @@ public class SamplePatientEntryAction extends BaseSampleEntryAction {
 		PropertyUtils.setProperty(dynaForm, "sampleEntryFieldsetOrder", Arrays.asList(fieldsetOrder));
         PropertyUtils.setProperty(dynaForm, "sampleSourceList", sampleSourceDAO.getAllActive());
         PropertyUtils.setProperty(dynaForm, "providerList", providerDAO.getAllActiveProviders());
+        PropertyUtils.setProperty(dynaForm, "isPanelEditable", isPanelEditable(request));
 
 		addProjectList(dynaForm);
 
@@ -116,6 +119,17 @@ public class SamplePatientEntryAction extends BaseSampleEntryAction {
 			setDictionaryList(dynaForm, "paymentOptions", "PP", true);
 		}
 		return mapping.findForward(forward);
+	}
+
+	private boolean isPanelEditable(HttpServletRequest request) {
+		UserModuleDAOImpl userModuleDAO = new UserModuleDAOImpl();
+		boolean isAdmin = userModuleDAO.isUserAdmin(request);
+		if (isAdmin) {
+			return true;
+		} else {
+			HashSet accessMap = (HashSet) request.getSession().getAttribute(IActionConstants.PERMITTED_ACTIONS_MAP);
+			return accessMap.contains("Panel") || accessMap.contains("PanelItem");
+		}
 	}
 
 }
