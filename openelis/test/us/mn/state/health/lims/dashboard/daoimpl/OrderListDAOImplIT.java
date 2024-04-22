@@ -70,6 +70,8 @@ public class OrderListDAOImplIT extends IT {
     private TestSection itTestSection;
     private TypeOfSample urine;
     private TypeOfSample blood;
+    private String loginLocationId;
+    private SampleSource sampleSource;
 
     @Before
     public void setUp() throws Exception {
@@ -88,6 +90,9 @@ public class OrderListDAOImplIT extends IT {
         dateInThePast = new Date(today.getTime() - 10 * 24 * 60 * 60 * 1000);
         newTestSection = getTestSection("New");
         itTestSection = getTestSection("user");
+        loginLocationId = "3";
+        sampleSource = new SampleSource();
+        sampleSource.setId(loginLocationId);
     }
 
     @org.junit.Test
@@ -122,7 +127,7 @@ public class OrderListDAOImplIT extends IT {
         createAnalysis(sampleItem2, StatusOfSampleUtil.AnalysisStatus.Finalized, "New", test2);
         createAnalysis(sampleItem3, StatusOfSampleUtil.AnalysisStatus.Finalized, "user", test3);
 
-        List<Order> allToday = new OrderListDAOImpl(true).getAllToday();
+        List<Order> allToday = new OrderListDAOImpl(true).getAllToday(loginLocationId);
 
         assertEquals(2, allToday.size());
 
@@ -184,7 +189,7 @@ public class OrderListDAOImplIT extends IT {
         createAnalysis(sampleItem2,StatusOfSampleUtil.AnalysisStatus.Finalized,"New", test2);
         createAnalysis(sampleItem3,StatusOfSampleUtil.AnalysisStatus.Finalized,"user", test3);
 
-        List<Order> allToday = new OrderListDAOImpl(false).getAllToday();
+        List<Order> allToday = new OrderListDAOImpl(false).getAllToday(loginLocationId);
 
         assertEquals(2, allToday.size());
 
@@ -254,7 +259,7 @@ public class OrderListDAOImplIT extends IT {
         createAnalysis(sampleItem4, StatusOfSampleUtil.AnalysisStatus.Finalized, "New", test3);
         createAnalysis(sampleItem5, StatusOfSampleUtil.AnalysisStatus.Finalized, "New", test4);
 
-        List<Order> sampleNotCollectedToday = new OrderListDAOImpl(true).getAllSampleNotCollectedToday();
+        List<Order> sampleNotCollectedToday = new OrderListDAOImpl(true).getAllSampleNotCollectedToday(loginLocationId);
 
         assertEquals(2, sampleNotCollectedToday.size());
         assertEquals("New", sampleNotCollectedToday.get(0).getSectionNames());
@@ -305,7 +310,7 @@ public class OrderListDAOImplIT extends IT {
         createAnalysis(sampleItem4, StatusOfSampleUtil.AnalysisStatus.Finalized, "New", test3);
         createAnalysis(sampleItem5, StatusOfSampleUtil.AnalysisStatus.Finalized, "New", test4);
 
-        List<Order> sampleNotCollectedToday = new OrderListDAOImpl(false).getAllSampleNotCollectedToday();
+        List<Order> sampleNotCollectedToday = new OrderListDAOImpl(false).getAllSampleNotCollectedToday(loginLocationId);
 
         assertEquals(2, sampleNotCollectedToday.size());
         assertEquals("New", sampleNotCollectedToday.get(0).getSectionNames());
@@ -352,7 +357,7 @@ public class OrderListDAOImplIT extends IT {
         createAnalysis(sampleItem3, StatusOfSampleUtil.AnalysisStatus.NotTested, "New", test4);
         createAnalysis(sampleItem4, StatusOfSampleUtil.AnalysisStatus.Finalized, "user", test3);
 
-        List<Order> sampleNotCollectedPendingBeforeToday = new OrderListDAOImpl(true).getAllSampleNotCollectedPendingBeforeToday();
+        List<Order> sampleNotCollectedPendingBeforeToday = new OrderListDAOImpl(true).getAllSampleNotCollectedPendingBeforeToday(loginLocationId);
 
         assertEquals(1, sampleNotCollectedPendingBeforeToday.size());
         assertEquals("New,user", sampleNotCollectedPendingBeforeToday.get(0).getSectionNames());
@@ -396,7 +401,7 @@ public class OrderListDAOImplIT extends IT {
         createAnalysis(sampleItem3, StatusOfSampleUtil.AnalysisStatus.NotTested, "New", test4);
         createAnalysis(sampleItem4, StatusOfSampleUtil.AnalysisStatus.Finalized, "user", test3);
 
-        List<Order> sampleNotCollectedPendingBeforeToday = new OrderListDAOImpl(false).getAllSampleNotCollectedPendingBeforeToday();
+        List<Order> sampleNotCollectedPendingBeforeToday = new OrderListDAOImpl(false).getAllSampleNotCollectedPendingBeforeToday(loginLocationId);
 
         assertEquals(1, sampleNotCollectedPendingBeforeToday.size());
         assertEquals("New,user", sampleNotCollectedPendingBeforeToday.get(0).getSectionNames());
@@ -415,20 +420,20 @@ public class OrderListDAOImplIT extends IT {
         createAnalysis(sampleItem1, StatusOfSampleUtil.AnalysisStatus.NotTested, "New", test);
 
         OrderListDAOImpl orderListDAO = new OrderListDAOImpl(true);
-        List<Order> allSampleNotCollectedPendingBeforeToday = orderListDAO.getAllSampleNotCollectedPendingBeforeToday();
+        List<Order> allSampleNotCollectedPendingBeforeToday = orderListDAO.getAllSampleNotCollectedPendingBeforeToday(loginLocationId);
         assertEquals(1, allSampleNotCollectedPendingBeforeToday.size());
         assertEquals("New", allSampleNotCollectedPendingBeforeToday.get(0).getSectionNames());
-        assertEquals(0, orderListDAO.getAllPendingBeforeToday().size());
+        assertEquals(0, orderListDAO.getAllPendingBeforeToday(loginLocationId).size());
 
         sample1.setAccessionNumber(accessionNumber1);
         sample1.setLastupdated(new Timestamp(today.getTime()));
         new SampleDAOImpl().updateData(sample1);
 
-        assertEquals(0, orderListDAO.getAllSampleNotCollectedPendingBeforeToday().size());
-        List<Order> allPendingBeforeToday = orderListDAO.getAllPendingBeforeToday();
+        assertEquals(0, orderListDAO.getAllSampleNotCollectedPendingBeforeToday(loginLocationId).size());
+        List<Order> allPendingBeforeToday = orderListDAO.getAllPendingBeforeToday(loginLocationId);
         assertEquals(1, allPendingBeforeToday.size());
         assertEquals("New", allPendingBeforeToday.get(0).getSectionNames());
-        List<Order> allToday = orderListDAO.getAllToday();
+        List<Order> allToday = orderListDAO.getAllToday(loginLocationId);
         assertEquals(1, allToday.size());
         assertEquals("New", allToday.get(0).getSectionNames());
     }
@@ -448,22 +453,22 @@ public class OrderListDAOImplIT extends IT {
         Analysis analysis2 = createAnalysis(sampleItem1, StatusOfSampleUtil.AnalysisStatus.NotTested, "New", test1);
 
         OrderListDAOImpl orderListDAO = new OrderListDAOImpl(true);
-        List<Order> allPendingBeforeToday = orderListDAO.getAllPendingBeforeToday();
+        List<Order> allPendingBeforeToday = orderListDAO.getAllPendingBeforeToday(loginLocationId);
         assertEquals(1, allPendingBeforeToday.size());
         assertEquals("New", allPendingBeforeToday.get(0).getSectionNames());
-        assertEquals(0, orderListDAO.getAllToday().size());
+        assertEquals(0, orderListDAO.getAllToday(loginLocationId).size());
 
         analysis1.setLastupdated(new Timestamp(today.getTime()));
         new AnalysisDAOImpl().updateData(analysis1);
 
-        assertEquals(1, orderListDAO.getAllPendingBeforeToday().size());
-        assertEquals(1, orderListDAO.getAllToday().size());
+        assertEquals(1, orderListDAO.getAllPendingBeforeToday(loginLocationId).size());
+        assertEquals(1, orderListDAO.getAllToday(loginLocationId).size());
 
         analysis2.setLastupdated(new Timestamp(today.getTime()));
         new AnalysisDAOImpl().updateData(analysis2);
 
-        assertEquals(0, orderListDAO.getAllPendingBeforeToday().size());
-        assertEquals(1, orderListDAO.getAllToday().size());
+        assertEquals(0, orderListDAO.getAllPendingBeforeToday(loginLocationId).size());
+        assertEquals(1, orderListDAO.getAllToday(loginLocationId).size());
     }
 
 
@@ -496,7 +501,7 @@ public class OrderListDAOImplIT extends IT {
         createAnalysis(sampleItem2, StatusOfSampleUtil.AnalysisStatus.Finalized, "user", test2);
         createAnalysis(sampleItem3, StatusOfSampleUtil.AnalysisStatus.Finalized, "New", test3);
 
-        List<Order> allPendingBeforeToday = new OrderListDAOImpl(true).getAllPendingBeforeToday();
+        List<Order> allPendingBeforeToday = new OrderListDAOImpl(true).getAllPendingBeforeToday(loginLocationId);
 
         assertEquals(1, allPendingBeforeToday.size());
 
@@ -542,7 +547,7 @@ public class OrderListDAOImplIT extends IT {
         createAnalysis(sampleItem2, StatusOfSampleUtil.AnalysisStatus.Finalized, "user", test2);
         createAnalysis(sampleItem3, StatusOfSampleUtil.AnalysisStatus.Finalized, "New", test3);
 
-        List<Order> allPendingBeforeToday = new OrderListDAOImpl(false).getAllPendingBeforeToday();
+        List<Order> allPendingBeforeToday = new OrderListDAOImpl(false).getAllPendingBeforeToday(loginLocationId);
 
         assertEquals(1, allPendingBeforeToday.size());
 
@@ -650,16 +655,15 @@ public class OrderListDAOImplIT extends IT {
     }
 
     private Sample createSample(String accessionNumber, Date date, String priority) {
-        List<SampleSource> sampleSources = new SampleSourceDAOImpl().getAll();
         Sample sample = new Sample();
         sample.setAccessionNumber(accessionNumber);
         sample.setStatusId(StatusOfSampleUtil.getStatusID(StatusOfSampleUtil.OrderStatus.Started));
         sample.setEnteredDate(DateUtil.convertStringDateToSqlDate(new SimpleDateFormat("dd/MM/yyyy").format(new Date())));
         sample.setReceivedTimestamp(DateUtil.convertStringDateToTimestamp("01/01/2001 00:00"));
-        sample.setSampleSource(sampleSources.get(0));
         sample.setSysUserId("1");
         sample.setPriority(priority);
         sample.setLastupdated(new Timestamp(date.getTime()));
+        sample.setSampleSource(sampleSource);
         new SampleDAOImpl().insertDataWithAccessionNumber(sample);
         return sample;
     }

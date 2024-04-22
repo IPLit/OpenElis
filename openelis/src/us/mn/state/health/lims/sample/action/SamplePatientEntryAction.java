@@ -29,11 +29,13 @@ import us.mn.state.health.lims.common.util.ConfigurationProperties;
 import us.mn.state.health.lims.common.util.ConfigurationProperties.Property;
 import us.mn.state.health.lims.common.util.DateUtil;
 import us.mn.state.health.lims.login.daoimpl.UserModuleDAOImpl;
+import us.mn.state.health.lims.login.valueholder.UserSessionData;
 import us.mn.state.health.lims.patient.action.bean.PatientManagmentInfo;
 import us.mn.state.health.lims.provider.dao.ProviderDAO;
 import us.mn.state.health.lims.provider.daoimpl.ProviderDAOImpl;
 import us.mn.state.health.lims.samplesource.dao.SampleSourceDAO;
 import us.mn.state.health.lims.samplesource.daoimpl.SampleSourceDAOImpl;
+import us.mn.state.health.lims.samplesource.valueholder.SampleSource;
 import us.mn.state.health.lims.siteinformation.dao.SiteInformationDAO;
 import us.mn.state.health.lims.siteinformation.daoimpl.SiteInformationDAOImpl;
 import us.mn.state.health.lims.siteinformation.valueholder.SiteInformation;
@@ -41,6 +43,7 @@ import us.mn.state.health.lims.siteinformation.valueholder.SiteInformation;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 
 /**
@@ -88,6 +91,9 @@ public class SamplePatientEntryAction extends BaseSampleEntryAction {
             fieldsetOrder = sampleEntryFieldsetOrder.getValue().split("\\|");
         }
 
+		UserSessionData usd = (UserSessionData)request.getSession().getAttribute(USER_SESSION_DATA);
+		String loginLocationId = usd.getLoginLocationId();
+		SampleSource sampleSource = sampleSourceDAO.get(loginLocationId);
 
 
         PropertyUtils.setProperty(dynaForm, "receivedDateForDisplay", dateAsText);
@@ -101,7 +107,7 @@ public class SamplePatientEntryAction extends BaseSampleEntryAction {
 		PropertyUtils.setProperty(dynaForm, "testSectionList", DisplayListService.getList(ListType.TEST_SECTION));
 		PropertyUtils.setProperty(dynaForm, "labNo", "");
 		PropertyUtils.setProperty(dynaForm, "sampleEntryFieldsetOrder", Arrays.asList(fieldsetOrder));
-        PropertyUtils.setProperty(dynaForm, "sampleSourceList", sampleSourceDAO.getAllActive());
+        PropertyUtils.setProperty(dynaForm, "sampleSourceList", Collections.singletonList(sampleSource));
         PropertyUtils.setProperty(dynaForm, "providerList", providerDAO.getAllActiveProviders());
         PropertyUtils.setProperty(dynaForm, "isPanelEditable", isPanelEditable(request));
 

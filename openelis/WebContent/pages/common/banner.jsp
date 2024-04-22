@@ -132,7 +132,7 @@ function displayHelp(){
 		    <% } %>
   		</div>
 <%
-	if (usd != null) {
+	if (usd != null && usd.getLoginLocationId() != null) {
 %>
 
 <%= MenuUtil.getMenuAsHTML(path) %>

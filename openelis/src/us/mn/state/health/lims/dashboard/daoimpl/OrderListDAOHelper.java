@@ -2,6 +2,7 @@ package us.mn.state.health.lims.dashboard.daoimpl;
 
 import org.apache.commons.lang3.StringUtils;
 import us.mn.state.health.lims.dashboard.valueholder.Order;
+import us.mn.state.health.lims.login.valueholder.UserSessionData;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -245,7 +246,7 @@ public class OrderListDAOHelper {
                 accessionResultSet.getBoolean("is_printed"),
                 accessionResultSet.getInt("pending_tests_count"),
                 accessionResultSet.getInt("pending_validation_count"),
-                accessionResultSet.getInt("referred_test_count"),
+                accessionResultSet.getInt("referred_tests_count"),
                 accessionResultSet.getInt("total_test_count"),
                 accessionResultSet.getDate("collection_date"),
                 accessionResultSet.getDate("entered_date"),

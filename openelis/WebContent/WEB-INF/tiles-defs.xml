@@ -148,6 +148,7 @@
     </definition>
     <definition name="loginLocationDefinition" extends="baseDefinition">
          <put name="body" value="/pages/login/loginLocationPage.jsp" />
+         <put name="footer" value="/pages/login/loginLocationButton.jsp" />
     </definition>
 	<definition name="loginChangePasswordDefinition" extends="baseDefinition">
          <put name="body" value="/pages/login/loginChangePassword.jsp" />
