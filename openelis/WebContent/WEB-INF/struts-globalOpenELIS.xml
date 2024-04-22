@@ -618,6 +618,8 @@
             <form-property name="userPassword2" type="java.lang.String" initial=""/>
             <form-property name="userFirstName" type="java.lang.String" initial=""/>
             <form-property name="userLastName" type="java.lang.String" initial=""/>
+            <form-property name="locations" type="java.util.Collection"/>
+            <form-property name="selectedLocations" type="java.lang.String[]"/>
             <form-property name="roles" type="java.util.Collection"/>
             <form-property name="selectedRoles" type="java.lang.String[]"/>
             <form-property name="expirationDate" type="java.lang.String"/>

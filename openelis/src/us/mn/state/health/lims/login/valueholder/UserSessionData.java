@@ -24,7 +24,8 @@ public class UserSessionData {
 	private int userTimeOut;
 	private int systemUserId;
 	private String loginName;
-	
+	private String loginLocationId;
+
 	public void setElisUserName(String elisUserName) {
 		this.elisUserName = elisUserName;
 	}
@@ -51,5 +52,13 @@ public class UserSessionData {
 	}
 	public String getLoginName() {
 		return loginName;
+	}
+
+	public String getLoginLocationId() {
+		return loginLocationId;
+	}
+
+	public void setLoginLocationId(String loginLocationId) {
+		this.loginLocationId = loginLocationId;
 	}
 }

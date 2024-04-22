@@ -2443,6 +2443,11 @@
                 </var>
             </field>
         </form>
+       <form name="loginLocationForm">
+            <field property="sampleSourceId" depends="required">
+                <arg key="login.location.selection"/>
+            </field>
+        </form>
         <form name="loginChangePasswordForm">
             <field property="loginName" depends="required">
                 <arg key="login.userName"/>

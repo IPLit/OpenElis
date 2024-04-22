@@ -47,6 +47,7 @@ import us.mn.state.health.lims.role.action.bean.DisplayRole;
 import us.mn.state.health.lims.role.dao.RoleDAO;
 import us.mn.state.health.lims.role.daoimpl.RoleDAOImpl;
 import us.mn.state.health.lims.role.valueholder.Role;
+import us.mn.state.health.lims.samplesource.daoimpl.SampleSourceDAOImpl;
 import us.mn.state.health.lims.systemuser.dao.SystemUserDAO;
 import us.mn.state.health.lims.systemuser.daoimpl.SystemUserDAOImpl;
 import us.mn.state.health.lims.systemuser.valueholder.SystemUser;
@@ -112,6 +113,8 @@ public class UnifiedSystemUserAction extends BaseAction {
 		displayRoles = sortAndGroupRoles(displayRoles);
 
 		PropertyUtils.setProperty(dynaForm, "roles", displayRoles);
+		PropertyUtils.setProperty(dynaForm, "locations", new SampleSourceDAOImpl().getAllActive());
+
 
 		return mapping.findForward(forward);
 	}
