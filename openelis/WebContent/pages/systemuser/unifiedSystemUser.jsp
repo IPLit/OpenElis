@@ -4,6 +4,7 @@
 	us.mn.state.health.lims.common.action.IActionConstants,
 	us.mn.state.health.lims.common.provider.validation.PasswordValidationFactory,
     us.mn.state.health.lims.common.util.Versioning,
+    us.mn.state.health.lims.samplesource.valueholder.SampleSource,
 	us.mn.state.health.lims.role.action.bean.DisplayRole,
 	us.mn.state.health.lims.common.util.StringUtil" %>
 
@@ -240,6 +241,30 @@ function /*void*/ requiredFieldUpdated( field){
 		</tr>
 </table>
 <hr/>
+<table>
+		<tr>
+		<td class="label" width="50%">
+			<bean:message key="systemuserlocation.locations" />
+		</td>
+		</tr>
+	<logic:iterate  name="<%=formName%>" property="locations" id="location" type="SampleSource" >
+	<tr>
+	<td>
+		<html:multibox name="<%=formName %>"
+					   property="selectedLocations">
+			<bean:write name="location" property="id" />
+		</html:multibox>
+		<bean:write name="location" property="name" />
+	</td>
+	</tr>
+	</logic:iterate>
+	<tr>
+		<td>&nbsp;
+
+		</td>
+	</tr>
+
+</table>
 <table>
 		<tr>
 		<td class="label" width="50%">

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="us.mn.state.health.lims.systemuserlocation">
+    <class name="SystemUserLocation" table="system_user_location" optimistic-lock="version" dynamic-update="true">
+		  <composite-id name="compoundId" class="us.mn.state.health.lims.systemuserlocation.SystemUserLocationPK" >
+			   <key-property name="locationId" column="location_id" type="us.mn.state.health.lims.hibernate.resources.usertype.LIMSStringNumberUserType" />
+			   <key-property name="systemUserId" column="system_user_id" type="us.mn.state.health.lims.hibernate.resources.usertype.LIMSStringNumberUserType" />
+		  </composite-id>
+ </class>
+</hibernate-mapping>

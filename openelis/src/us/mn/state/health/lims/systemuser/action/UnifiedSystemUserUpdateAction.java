@@ -38,6 +38,8 @@ import us.mn.state.health.lims.login.valueholder.Login;
 import us.mn.state.health.lims.systemuser.dao.SystemUserDAO;
 import us.mn.state.health.lims.systemuser.daoimpl.SystemUserDAOImpl;
 import us.mn.state.health.lims.systemuser.valueholder.SystemUser;
+import us.mn.state.health.lims.systemuserlocation.SystemUserLocation;
+import us.mn.state.health.lims.systemuserlocation.daoimpl.SystemUserLocationDAOImpl;
 import us.mn.state.health.lims.userrole.dao.UserRoleDAO;
 import us.mn.state.health.lims.userrole.daoimpl.UserRoleDAOImpl;
 import us.mn.state.health.lims.userrole.valueholder.UserRole;
@@ -118,8 +120,10 @@ public class UnifiedSystemUserUpdateAction extends BaseAction {
 		SystemUser systemUser = createSystemUser(dynaForm, systemUserId, systemUserNew, loggedOnUserId);
 
 		String[] selectedRoles = (String[]) dynaForm.get("selectedRoles");
+		String[] selectedLocations = (String[]) dynaForm.get("selectedLocations");
 
 		UserRoleDAO usrRoleDAO = new UserRoleDAOImpl();
+		SystemUserLocationDAOImpl systemUserLocationDAO = new SystemUserLocationDAOImpl();
 		SystemUserDAO systemUserDAO = new SystemUserDAOImpl();
 
 		try {
@@ -138,6 +142,8 @@ public class UnifiedSystemUserUpdateAction extends BaseAction {
 
 			List<String> currentUserRoles = usrRoleDAO.getRoleIdsForUser(systemUser.getId());
 			List<UserRole> deletedUserRoles = new ArrayList<UserRole>();
+			List<String> currentUserLocations = systemUserLocationDAO.getLocationIdsForUser(systemUser.getId());
+			ArrayList<SystemUserLocation> deletedUserLocations = new ArrayList<SystemUserLocation>();
 
 			for (int i = 0; i < selectedRoles.length; i++) {
 				if (!currentUserRoles.contains(selectedRoles[i])) {
@@ -162,8 +168,31 @@ public class UnifiedSystemUserUpdateAction extends BaseAction {
 			if (deletedUserRoles.size() > 0) {
 				usrRoleDAO.deleteData(deletedUserRoles);
 			}
+			for (int i = 0; i < selectedLocations.length; i++) {
+				if (!currentUserLocations.contains(selectedLocations[i])) {
+					SystemUserLocation systemUserLocation = new SystemUserLocation();
+					systemUserLocation.setSystemUserId(systemUser.getId());
+					systemUserLocation.setLocationId(selectedLocations[i]);
+					systemUserLocation.setSysUserId(loggedOnUserId);
+					systemUserLocationDAO.insertData(systemUserLocation);
+				} else {
+					currentUserLocations.remove(selectedLocations[i]);
+				}
+			}
+
+			for (String locationId : currentUserLocations) {
+				SystemUserLocation systemUserLocation = new SystemUserLocation();
+				systemUserLocation.setSystemUserId(systemUser.getId());
+				systemUserLocation.setLocationId(locationId);
+				systemUserLocation.setSysUserId(loggedOnUserId);
+				deletedUserLocations.add(systemUserLocation);
+			}
+
+			if (deletedUserLocations.size() > 0) {
+				systemUserLocationDAO.deleteData(deletedUserLocations);
+			}
 		} catch (LIMSRuntimeException lre) {
-            request.setAttribute(IActionConstants.REQUEST_FAILED, true);
+			request.setAttribute(IActionConstants.REQUEST_FAILED, true);
 
 			ActionError error = null;
 			if (lre.getException() instanceof org.hibernate.StaleObjectStateException) {
@@ -288,9 +317,9 @@ public class UnifiedSystemUserUpdateAction extends BaseAction {
 
 		SystemUser systemUser = new SystemUser();
 
-        if (!systemUserNew) {
-            systemUser.setId(systemUserId);
-        }
+		if (!systemUserNew) {
+			systemUser.setId(systemUserId);
+		}
 
 		systemUser.setFirstName(dynaForm.getString("userFirstName"));
 		systemUser.setLastName(dynaForm.getString("userLastName"));

@@ -47,11 +47,13 @@ import us.mn.state.health.lims.role.action.bean.DisplayRole;
 import us.mn.state.health.lims.role.dao.RoleDAO;
 import us.mn.state.health.lims.role.daoimpl.RoleDAOImpl;
 import us.mn.state.health.lims.role.valueholder.Role;
+import us.mn.state.health.lims.samplesource.dao.SampleSourceDAO;
 import us.mn.state.health.lims.samplesource.daoimpl.SampleSourceDAOImpl;
 import us.mn.state.health.lims.systemuser.dao.SystemUserDAO;
 import us.mn.state.health.lims.systemuser.daoimpl.SystemUserDAOImpl;
 import us.mn.state.health.lims.systemuser.valueholder.SystemUser;
 import us.mn.state.health.lims.systemuser.valueholder.UnifiedSystemUser;
+import us.mn.state.health.lims.systemuserlocation.daoimpl.SystemUserLocationDAOImpl;
 import us.mn.state.health.lims.userrole.dao.UserRoleDAO;
 import us.mn.state.health.lims.userrole.daoimpl.UserRoleDAOImpl;
 
@@ -76,6 +78,7 @@ public class UnifiedSystemUserAction extends BaseAction {
 			}
 		}
 	}
+
 
 	protected ActionForward performAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -114,7 +117,6 @@ public class UnifiedSystemUserAction extends BaseAction {
 
 		PropertyUtils.setProperty(dynaForm, "roles", displayRoles);
 		PropertyUtils.setProperty(dynaForm, "locations", new SampleSourceDAOImpl().getAllActive());
-
 
 		return mapping.findForward(forward);
 	}
@@ -304,7 +306,10 @@ public class UnifiedSystemUserAction extends BaseAction {
 
 			UserRoleDAO userRoleDAO = new UserRoleDAOImpl();
 			List<String> roleIds = userRoleDAO.getRoleIdsForUser(systemUser.getId());
+			SystemUserLocationDAOImpl systemUserLocationDAO = new SystemUserLocationDAOImpl();
+			List<String> locationIdsForUser = systemUserLocationDAO.getLocationIdsForUser(systemUser.getId());
 			PropertyUtils.setProperty(dynaForm, "selectedRoles", roleIds.toArray(new String[0]));
+			PropertyUtils.setProperty(dynaForm, "selectedLocations", locationIdsForUser.toArray(new String[0]));
 
 			doFiltering = !roleIds.contains(MAINTENANCE_ADMIN_ID);
 		}

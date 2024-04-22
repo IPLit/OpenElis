@@ -1814,5 +1814,36 @@
             <where>element_id='menu_patient_add_or_edit'</where>
         </update>
     </changeSet>
+    <changeSet id="20240405" context="bahmni" author="iplit" >
+        <comment>create a new table to store locations of a system user</comment>
+        <createTable schemaName="clinlims" tableName="system_user_location">
+            <column name="system_user_id"  type="numeric(10,0)">
+            </column>
+            <column name="location_id" type="int">
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="system_user_id"
+                                 baseTableName="system_user_location"
+                                 constraintName="fk_system_user"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="system_user"/>
+        <addForeignKeyConstraint baseColumnNames="location_id"
+                                 baseTableName="system_user_location"
+                                 constraintName="fk_sample_source"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sample_source"/>
+    </changeSet>
+
+    <changeSet author="iplit" id="20240408" context="bahmni">
+        <insert schemaName="clinlims" tableName="reference_tables">
+            <column name="name" value="system_user_location"/>
+            <column name="id" valueNumeric=" nextval( 'reference_tables_seq' ) "/>
+            <column name="keep_history" value="Y"/>
+            <column name="is_hl7_encoded" value="N"/>
+            <column name="lastupdated" value=" now() "/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>
 

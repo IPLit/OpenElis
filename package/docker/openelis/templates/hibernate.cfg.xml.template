@@ -170,6 +170,8 @@
         <mapping
                 resource="us/mn/state/health/lims/systemuser/valueholder/SystemUser.hbm.xml"></mapping>
         <mapping
+                resource="us/mn/state/health/lims/systemuserlocation/SystemUserLocation.hbm.xml" />
+        <mapping
                 resource="us/mn/state/health/lims/test/valueholder/Test.hbm.xml"></mapping>
         <mapping
                 resource="us/mn/state/health/lims/test/valueholder/TestSection.hbm.xml"></mapping>
