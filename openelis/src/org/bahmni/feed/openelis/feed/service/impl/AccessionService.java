@@ -157,9 +157,10 @@ public class AccessionService {
         return accessionNotesToPublish;
     }
 
-    private String toISODateFormat(Timestamp timestamp){
-        return DateFormatUtils.format(timestamp.getTime(),DateFormatUtils.ISO_DATETIME_TIME_ZONE_FORMAT.getPattern());
+    String toISODateFormat(Timestamp timestamp){
+        return DateFormatUtils.format(timestamp.getTime(), DateFormatUtils.ISO_DATETIME_FORMAT.getPattern());
     }
+
 
     private void mapSampleItem(List<TestDetail> testDetails, SampleItem sampleItem) {
         for (Analysis analysis : sampleItem.getAnalyses()) {
