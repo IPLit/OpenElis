@@ -64,6 +64,7 @@ public class ResourceRetrieveAction extends WebServiceAction {
         }
 
         response.setContentType(APPLICATION_JSON);
+        response.setCharacterEncoding("UTF-8");
         ObjectMapperRepository.objectMapper.writeValue(response.getWriter(), result);
 
         return null;
