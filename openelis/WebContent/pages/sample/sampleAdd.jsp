@@ -685,7 +685,7 @@ function samplesHaveBeenAdded(){
 		</tr>
 	</Table>
 
-<form>
+
     <fieldset <%=isPanelEditable ? "" : "disabled='true'" %> >
 
 	<div id="samplesAdded" class="colorFill" style="display: none; ">
@@ -775,4 +775,3 @@ function samplesHaveBeenAdded(){
 	</div>
 	</div>
     </fieldset>
-</form>
