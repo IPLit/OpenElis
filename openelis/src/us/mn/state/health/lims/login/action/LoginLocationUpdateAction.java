@@ -62,7 +62,7 @@ public class LoginLocationUpdateAction extends BaseAction {
 		String selectSampleSourceId = dynaForm.getString("sampleSourceId");
 		UserSessionData usd = (UserSessionData) request.getSession().getAttribute(USER_SESSION_DATA);
 		usd.setLoginLocationId(selectSampleSourceId);
-		request.setAttribute(USER_SESSION_DATA, usd);
+		request.getSession().setAttribute(USER_SESSION_DATA, usd);
 
 		return mapping.findForward(forward);
 	}
