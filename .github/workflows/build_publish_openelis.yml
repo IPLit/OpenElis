@@ -26,7 +26,9 @@ jobs:
         with:
           ruby-version: 2.6
       - name: Install Compass
-        run: gem install compass
+        run: |
+          gem update --system
+          gem install compass
       - name: Install Ant 1.9
         run: |
           mkdir /tmp/ant
