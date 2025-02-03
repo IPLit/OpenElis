@@ -1845,5 +1845,20 @@
             <column name="lastupdated" value=" now() "/>
         </insert>
     </changeSet>
+    <changeSet author="iplit" id="20250201" context="bahmni">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from clinlims.site_information where name='showColumnsForTodayCollectedTab'
+            </sqlCheck>
+        </preConditions>
+        <comment>Adds showColumnsForTodayCollectedTab to site_information</comment>
+        <insert schemaName="clinlims" tableName="site_information">
+            <column name="id" valueNumeric=" nextval( 'site_information_seq' ) "/>
+            <column name="name" value="showColumnsForTodayCollectedTab"/>
+            <column name="lastupdated" valueDate=" now() "/>
+            <column name="description" value="Allows the user to show extra columns to the todays sample collected tab"/>
+            <column name="value" value="true"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>
 

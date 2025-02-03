@@ -4,7 +4,8 @@
 	java.text.SimpleDateFormat,
 	us.mn.state.health.lims.common.util.SystemConfiguration,
 	us.mn.state.health.lims.common.action.IActionConstants" %>
-<%@ page import="us.mn.state.health.lims.common.util.ConfigurationProperties" %>
+<%@ page import="us.mn.state.health.lims.common.util.ConfigurationProperties,
+                 us.mn.state.health.lims.common.util.ConfigurationProperties.Property" %>
 
 <%@ taglib uri="/tags/struts-bean" prefix="bean" %>
 <%@ taglib uri="/tags/struts-html" prefix="html" %>
@@ -24,6 +25,8 @@ String serverNow = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 Boolean alwaysValidate = ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.ALWAYS_VALIDATE_RESULTS, "true");
 Boolean showReferredTestsCount = ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.SHOW_REFERRED_TESTS_COUNT, "true");
 Boolean showPatientsDetailsInSampleLabelPrint = ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.SHOW_PATIENT_DETAILS_SAMPLE_LABEL_PRINT, "true");
+Boolean	showExtraColumns = ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.showColumnsForTodayCollectedTab, "true");
+
 
 String chosenLanguage = "";
 Boolean currentChosenArLanguage = false;
@@ -268,9 +271,9 @@ var currentChosenArLanguageVar = false;
         createGrid(gridForBacklogSamplesToCollect, dataViewForBacklogSamplesToCollect, backlogSamplesToCollectObject, onRowSelection);
 
         if(<%= showReferredTestsCount%>) { // show referred Test count column in dashboard
-            var todayOrdersObject = new order("#todaySamplesCollectedListContainer-slick-grid", todayOrderList, generateAllLinksForOrder, getColumnsForTodayOrderWithReferredOutTestsCountColumn, <%= alwaysValidate%>, showPriorityColumn, <%= currentChosenArLanguage%>);
+            var todayOrdersObject = new order("#todaySamplesCollectedListContainer-slick-grid", todayOrderList, generateAllLinksForOrder, getColumnsForTodayOrderWithReferredOutTestsCountColumn, <%= alwaysValidate%>, showPriorityColumn,  <%= showExtraColumns%>,<%= currentChosenArLanguage%>);
         } else {
-            var todayOrdersObject = new order("#todaySamplesCollectedListContainer-slick-grid", todayOrderList, generateAllLinksForOrder, getColumnsForTodayOrder, <%= alwaysValidate%>, showPriorityColumn, <%= currentChosenArLanguage%>);
+            var todayOrdersObject = new order("#todaySamplesCollectedListContainer-slick-grid", todayOrderList, generateAllLinksForOrder, getColumnsForTodayOrder, <%= alwaysValidate%>, showPriorityColumn, <%= showExtraColumns%>, <%= currentChosenArLanguage%>);
         }
         var dataViewForTodayTab = new Slick.Data.DataView();
         var gridForTodayOrder = new Slick.Grid(todayOrdersObject.div, dataViewForTodayTab, todayOrdersObject.columns,options);
