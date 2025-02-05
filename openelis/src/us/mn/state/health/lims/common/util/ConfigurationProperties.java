@@ -87,7 +87,7 @@ public abstract class ConfigurationProperties {
                              RESULTS_PAGE_SIZE,
                              ST_NUMBER_FORMAT,
 		                     flagForShowingTestStatus,
-							showColumnsForTodayCollectedTab
+							 showColumnsForTodayCollectedTab
 	};
 
 	
@@ -127,7 +127,6 @@ public abstract class ConfigurationProperties {
 	abstract protected void loadIfPropertyValueNeeded(Property property);
 
 	public boolean isPropertyValueEqual(Property property, String target) {
-		
 		if( target == null){
 			return getPropertyValue(property) == null;
 		}else{

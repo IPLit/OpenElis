@@ -56,7 +56,6 @@ public class DefaultConfigurationProperties extends ConfigurationProperties {
 		setDBPropertyMappingAndDefault(Property.UseExternalPatientInfo, "useExternalPatientSource" , "false");
 		setDBPropertyMappingAndDefault(Property.labDirectorName, "lab director" , "");
 		setDBPropertyMappingAndDefault(Property.allowLanguageChange, "allowLanguageChange", "true" );
-		setDBPropertyMappingAndDefault(Property.showColumnsForTodayCollectedTab, "showExtraColumnsForTodayCollectedSamples", "true" );
 		setDBPropertyMappingAndDefault(Property.resultReportingURL, "resultReportingURL", "");
 		setDBPropertyMappingAndDefault(Property.reportResults, "resultReporting", "false");
 		setDBPropertyMappingAndDefault(Property.malariaSurveillanceReportURL, "malariaSurURL", "");
@@ -96,6 +95,7 @@ public class DefaultConfigurationProperties extends ConfigurationProperties {
 		setDBPropertyMappingAndDefault(Property.RESULTS_VALIDATION_PAGE_SIZE, "resultsValidationPageSize", "10");
         setDBPropertyMappingAndDefault(Property.ST_NUMBER_FORMAT, "stNumberFormat", "/([a-zA-Z].{2})(.*)/");
         setDBPropertyMappingAndDefault(Property.flagForShowingTestStatus, "flagForShowingTestStatus","false");
+		setDBPropertyMappingAndDefault(Property.showColumnsForTodayCollectedTab, "showColumnsForTodayCollectedTab", "true" );
 	}
 
 	private void setDBPropertyMappingAndDefault(Property property, String dbName, String defaultValue) {
