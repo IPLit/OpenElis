@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 import org.bahmni.feed.openelis.ObjectMapperRepository;
 import us.mn.state.health.lims.common.action.BaseAction;
+import us.mn.state.health.lims.common.util.ConfigurationProperties;
 import us.mn.state.health.lims.dashboard.dao.OrderListDAO;
 import us.mn.state.health.lims.dashboard.daoimpl.OrderListDAOImpl;
 import us.mn.state.health.lims.login.valueholder.UserSessionData;
@@ -34,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class DashboardAction extends BaseAction {
+
     private static final String GROUP_BY_SAMPLE = "groupBySample";
     public static final String ACCESSION_STRATEGY = "accessionStrategy";
 
@@ -49,11 +51,21 @@ public class DashboardAction extends BaseAction {
         String accessionStrategy = siteInformation != null ? siteInformation.getValue() : "";
         Boolean isGroupBySample = GROUP_BY_SAMPLE.equals(accessionStrategy);
         OrderListDAO orderListDAO = new OrderListDAOImpl(isGroupBySample);
-
-        String escapedTodayOrderListJson = asJson(orderListDAO.getAllToday(loginLocationId));
-        String escapedTodaySampleNotCollectedListJson = asJson(orderListDAO.getAllSampleNotCollectedToday(loginLocationId));
-        String escapedBacklogSampleNotCollectedListJson = asJson(orderListDAO.getAllSampleNotCollectedPendingBeforeToday(loginLocationId));
-        String escapedBacklogOrderListJson = asJson(orderListDAO.getAllPendingBeforeToday(loginLocationId));
+        String escapedTodayOrderListJson;
+        String escapedTodaySampleNotCollectedListJson;
+        String escapedBacklogSampleNotCollectedListJson;
+        String escapedBacklogOrderListJson;
+        if (ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.allowLocationSelect, "true")) {
+            escapedTodayOrderListJson = asJson(orderListDAO.getAllToday(loginLocationId));
+            escapedTodaySampleNotCollectedListJson = asJson(orderListDAO.getAllSampleNotCollectedToday(loginLocationId));
+            escapedBacklogSampleNotCollectedListJson = asJson(orderListDAO.getAllSampleNotCollectedPendingBeforeToday(loginLocationId));
+            escapedBacklogOrderListJson = asJson(orderListDAO.getAllPendingBeforeToday(loginLocationId));
+        } else {
+            escapedTodayOrderListJson = asJson(orderListDAO.getAllToday());
+            escapedTodaySampleNotCollectedListJson = asJson(orderListDAO.getAllSampleNotCollectedToday());
+            escapedBacklogSampleNotCollectedListJson = asJson(orderListDAO.getAllSampleNotCollectedPendingBeforeToday());
+            escapedBacklogOrderListJson = asJson(orderListDAO.getAllPendingBeforeToday());
+        }
 
         dynaForm.set("todayOrderList", escapedTodayOrderListJson);
         dynaForm.set("todaySampleNotCollectedList", escapedTodaySampleNotCollectedListJson);

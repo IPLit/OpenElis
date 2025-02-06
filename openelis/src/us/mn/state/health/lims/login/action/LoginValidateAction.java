@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionMessages;
 import us.mn.state.health.lims.common.action.BaseActionForm;
 import us.mn.state.health.lims.common.action.IActionConstants;
 import us.mn.state.health.lims.common.log.LogEvent;
+import us.mn.state.health.lims.common.util.ConfigurationProperties;
 import us.mn.state.health.lims.common.util.SystemConfiguration;
 import us.mn.state.health.lims.common.util.validator.ActionError;
 import us.mn.state.health.lims.login.dao.LoginDAO;
@@ -230,7 +231,11 @@ public class LoginValidateAction extends LoginBaseAction {
 				}
 			}	
 		}
-		return mapping.findForward(forward);
+		if (ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.allowLocationSelect, "true")) {
+			return mapping.findForward(forward);
+		} else {
+			return mapping.findForward(FWD_DASHBOARD);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -1862,5 +1862,22 @@
             <column name="value_type" value="boolean" />
         </insert>
     </changeSet>
+    <changeSet author="iplit" id="20250206" context="bahmni">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from clinlims.site_information where name='allowLocationSelect';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adds showColumnsForTodayCollectedTab to site_information</comment>
+        <insert schemaName="clinlims" tableName="site_information">
+            <column name="id" valueNumeric=" nextval( 'site_information_seq' ) "/>
+            <column name="name" value="allowLocationSelect"/>
+            <column name="lastupdated" valueDate=" now() "/>
+            <column name="description" value="Allows the user to show extra columns to the todays sample collected tab"/>
+            <column name="domain_id" valueNumeric=" (select id from clinlims.site_information_domain where name = 'siteIdentity' ) " />
+            <column name="value" value="false"/>
+            <column name="value_type" value="boolean" />
+        </insert>
+    </changeSet>
 </databaseChangeLog>
 

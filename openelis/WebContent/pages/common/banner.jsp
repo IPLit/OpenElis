@@ -26,6 +26,7 @@
 	chosenLanguage = SystemConfiguration.getInstance().getDefaultLocale().toLanguageTag()+"";
 	bannerStyle = SystemConfiguration.getInstance().getBannerStyle();
 	languageSwitch = "true".equals(ConfigurationProperties.getInstance().getPropertyValue(Property.allowLanguageChange));
+    Boolean	allowLocationSelect = "true".equals(ConfigurationProperties.getInstance().getPropertyValue(ConfigurationProperties.Property.allowLocationSelect));
 %>
 
 
@@ -132,11 +133,15 @@ function displayHelp(){
 		    <% } %>
   		</div>
 <%
-	if (usd != null && usd.getLoginLocationId() != null) {
+	if (usd != null && allowLocationSelect && usd.getLoginLocationId() != null) {
 %>
 
 <%= MenuUtil.getMenuAsHTML(path) %>
 
+<%
+		} else if (usd != null && !allowLocationSelect) {
+%>
+		<%= MenuUtil.getMenuAsHTML(path) %>
 <%
 		}
 %>

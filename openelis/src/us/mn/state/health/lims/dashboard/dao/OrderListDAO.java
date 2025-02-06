@@ -21,8 +21,12 @@ import us.mn.state.health.lims.dashboard.valueholder.Order;
 import java.util.List;
 
 public interface OrderListDAO {
-    public List<Order> getAllToday(String loginLocationId);
+    List<Order> getAllToday(String loginLocationId);
     List<Order> getAllPendingBeforeToday(String loginLocationId);
+    List<Order> getAllPendingBeforeToday();
     List<Order> getAllSampleNotCollectedToday(String loginLocationId);
+    List<Order> getAllSampleNotCollectedToday();
+    List<Order> getAllSampleNotCollectedPendingBeforeToday();
     List<Order> getAllSampleNotCollectedPendingBeforeToday(String loginLocationId);
+    List<Order> getAllToday();
 }

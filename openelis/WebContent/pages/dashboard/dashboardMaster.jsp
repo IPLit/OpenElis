@@ -305,8 +305,8 @@ var currentChosenArLanguageVar = false;
         jQuery("#refreshButton").on("click",function(){
             var index = jQuery( "#tabs" ).tabs( "option", "selected" );
             //making sure to delete all the parameters on location href
-            var link =location.href.split("?")[0];
-            location.href = link + "?activeTab=" + index;
+            var link = location.href.split("?")[0];
+            location.href = window.location.origin + "/openelis/LabDashboard.do?activeTab=" + index;
             return false;
         });
 

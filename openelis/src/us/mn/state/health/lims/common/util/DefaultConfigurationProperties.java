@@ -96,6 +96,7 @@ public class DefaultConfigurationProperties extends ConfigurationProperties {
         setDBPropertyMappingAndDefault(Property.ST_NUMBER_FORMAT, "stNumberFormat", "/([a-zA-Z].{2})(.*)/");
         setDBPropertyMappingAndDefault(Property.flagForShowingTestStatus, "flagForShowingTestStatus","false");
 		setDBPropertyMappingAndDefault(Property.showColumnsForTodayCollectedTab, "showColumnsForTodayCollectedTab", "true" );
+		setDBPropertyMappingAndDefault(Property.allowLocationSelect, "allowLocationSelect", "false");
 	}
 
 	private void setDBPropertyMappingAndDefault(Property property, String dbName, String defaultValue) {

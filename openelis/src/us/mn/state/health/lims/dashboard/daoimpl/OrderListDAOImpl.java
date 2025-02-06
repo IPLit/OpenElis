@@ -121,6 +121,76 @@ public class OrderListDAOImpl implements OrderListDAO {
         return getOrders(sqlForAllSampleNotCollectedPendingBeforeToday);
     }
 
+    @Override
+    public List<Order> getAllToday() {
+        List<Order> orderList = new ArrayList<>();
+        String condition = "sample.accession_number is not null and analysis.status_id IN (" + getAllAnalysisStatus() + ") ";
+        String sqlForAllTestsToday = orderListDAOHelper.createSqlForToday(condition, "sample.accession_number",
+                getPendingAnalysisStatus(), getPendingValidationAnalysisStatus(),getReferredAnalysisStatus(), getCompletedStatus());
+        PreparedStatement preparedStatement = null;
+        ResultSet todayAccessions = null;
+        try {
+            preparedStatement = getPreparedStatement(sqlForAllTestsToday);
+            //Dont'use current_date in prepared_statement. I know its weird, but
+            //The session fires query with current_date = date_on_which_session_was_created and gives wron result on next daypreparedStatement.setTimestamp(1, DateUtil.getTodayAsTimestamp());
+            preparedStatement.setTimestamp(1, DateUtil.getTodayAsTimestamp());
+            preparedStatement.setTimestamp(2, DateUtil.getTodayAsTimestamp());
+            todayAccessions = preparedStatement.executeQuery();
+            while (todayAccessions.next()) {
+                orderList.add(createOrder(todayAccessions, todayAccessions.getBoolean("is_completed")));
+            }
+            return orderList;
+        } catch (SQLException e) {
+            throw new LIMSRuntimeException(e);
+        } finally {
+            closeResultSet(todayAccessions);
+            closePreparedStatement(preparedStatement);
+        }
+    }
+
+    @Override
+    public List<Order> getAllPendingBeforeToday() {
+        String condition = "sample.accession_number is not null and analysis.status_id IN (" + getAllAnalysisStatus() + ")";
+        return getOrders(orderListDAOHelper.createSqlForPendingBeforeToday(condition, "sample.accession_number",
+                getPendingAnalysisStatus(), getPendingValidationAnalysisStatus(), getReferredAnalysisStatus(),analysesInFinalStatus()));
+    }
+
+    @Override
+    public List<Order> getAllSampleNotCollectedToday() {
+        List<Order> orderList = new ArrayList<>();
+
+        String sqlForAllSampleNotCollectedToday = orderListDAOHelper.createSqlForToday("sample.accession_number is null and analysis.status_id IN (" + getAllNonReferredAnalysisStatus() + ")",
+                "sample.lastupdated", getPendingAnalysisStatus(), getPendingValidationAnalysisStatus(),getReferredAnalysisStatus(), getCompletedStatus());
+        ResultSet sampleNotCollectedToday = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = getPreparedStatement(sqlForAllSampleNotCollectedToday);
+            preparedStatement.setTimestamp(1, DateUtil.getTodayAsTimestamp());
+            preparedStatement.setTimestamp(2, DateUtil.getTodayAsTimestamp());
+            sampleNotCollectedToday = preparedStatement.executeQuery();
+            while (sampleNotCollectedToday.next()) {
+                Order order = createOrder(sampleNotCollectedToday, false);
+                orderList.add(order);
+            }
+            return orderList;
+        } catch (SQLException e) {
+            logger.error("Error closing resultSet", e);
+            throw new LIMSRuntimeException(e);
+        } finally {
+            closeResultSet(sampleNotCollectedToday);
+            closePreparedStatement(preparedStatement);
+        }
+    }
+
+    @Override
+    public List<Order> getAllSampleNotCollectedPendingBeforeToday() {
+        String condition = "sample.accession_number is null and analysis.status_id IN (" + getAllNonReferredAnalysisStatus() + ")";
+        String sqlForAllSampleNotCollectedPendingBeforeToday = orderListDAOHelper.createSqlForPendingBeforeToday(condition,
+                        "sample.lastupdated", getPendingAnalysisStatus(), getPendingValidationAnalysisStatus(),getReferredAnalysisStatus(),
+                analysesInFinalStatus());
+        return getOrders(sqlForAllSampleNotCollectedPendingBeforeToday);
+    }
+
     private List<Order> getOrders( String sql) {
         List<Order> orderList = new ArrayList<>();
         ResultSet pendingAccessions = null;

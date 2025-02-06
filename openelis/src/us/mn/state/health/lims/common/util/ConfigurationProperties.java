@@ -87,7 +87,8 @@ public abstract class ConfigurationProperties {
                              RESULTS_PAGE_SIZE,
                              ST_NUMBER_FORMAT,
 		                     flagForShowingTestStatus,
-							 showColumnsForTodayCollectedTab
+							 showColumnsForTodayCollectedTab,
+							 allowLocationSelect
 	};
 
 	
