@@ -45,6 +45,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * The SampleEntryAction class represents the initial Action for the SampleEntry
@@ -93,7 +94,13 @@ public class SamplePatientEntryAction extends BaseSampleEntryAction {
 
 		UserSessionData usd = (UserSessionData)request.getSession().getAttribute(USER_SESSION_DATA);
 		String loginLocationId = usd.getLoginLocationId();
-		SampleSource sampleSource = sampleSourceDAO.get(loginLocationId);
+		List<SampleSource> sampleSourceList;
+		if (ConfigurationProperties.getInstance().isPropertyValueEqual(Property.allowLocationSelect, "true")) {
+			SampleSource sampleSource = sampleSourceDAO.get(loginLocationId);
+			sampleSourceList = Collections.singletonList(sampleSource);
+		} else {
+			sampleSourceList = sampleSourceDAO.getAllActive();
+		}
 
 
         PropertyUtils.setProperty(dynaForm, "receivedDateForDisplay", dateAsText);
@@ -107,7 +114,7 @@ public class SamplePatientEntryAction extends BaseSampleEntryAction {
 		PropertyUtils.setProperty(dynaForm, "testSectionList", DisplayListService.getList(ListType.TEST_SECTION));
 		PropertyUtils.setProperty(dynaForm, "labNo", "");
 		PropertyUtils.setProperty(dynaForm, "sampleEntryFieldsetOrder", Arrays.asList(fieldsetOrder));
-        PropertyUtils.setProperty(dynaForm, "sampleSourceList", Collections.singletonList(sampleSource));
+		PropertyUtils.setProperty(dynaForm, "sampleSourceList", sampleSourceList);
         PropertyUtils.setProperty(dynaForm, "providerList", providerDAO.getAllActiveProviders());
         PropertyUtils.setProperty(dynaForm, "isPanelEditable", isPanelEditable(request));
 

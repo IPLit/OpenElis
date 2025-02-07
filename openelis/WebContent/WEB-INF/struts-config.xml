@@ -4900,6 +4900,7 @@
        </action>
         <action path="/LoginLocation" name="loginLocationForm" type="us.mn.state.health.lims.login.action.LoginLocationAction" validate="false">
           <forward name="success" path="loginLocationDefinition"/>
+          <forward name="forwardDashboard" path="/LabDashboard.do"/>
           <forward name="fail" path="/LoginPage.do"/>
           <!--bugzilla 2286-->
        </action>

@@ -21,6 +21,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 import us.mn.state.health.lims.common.action.BaseAction;
+import us.mn.state.health.lims.login.valueholder.UserSessionData;
 import us.mn.state.health.lims.samplesource.dao.SampleSourceDAO;
 import us.mn.state.health.lims.samplesource.daoimpl.SampleSourceDAOImpl;
 import us.mn.state.health.lims.samplesource.valueholder.SampleSource;
@@ -52,6 +53,13 @@ public class LoginLocationAction extends BaseAction {
         for (String locationId : locationIdsForUser) {
             SampleSource sampleSource = sampleSourceDAO.get(locationId);
             locationsForUser.add(sampleSource);
+        }
+
+        if (locationIdsForUser.size() == 1) {
+            UserSessionData usd = (UserSessionData) request.getSession().getAttribute(USER_SESSION_DATA);
+            usd.setLoginLocationId(locationIdsForUser.get(0));
+            request.setAttribute(USER_SESSION_DATA, usd);
+            return mapping.findForward(FWD_DASHBOARD);
         }
 
         PropertyUtils.setProperty(dynaForm, "sampleSourceList", locationsForUser);
