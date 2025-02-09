@@ -1879,5 +1879,11 @@
             <column name="value_type" value="boolean" />
         </insert>
     </changeSet>
+    <changeSet id="20250209" author="iplit" context="bahmni">
+        <update schemaName="clinlims" tableName="menu">
+            <column name="action_url" value="/PatientManagement.do"/>
+            <where>element_id='menu_patient_add_or_edit'</where>
+        </update>
+    </changeSet>
 </databaseChangeLog>
 
