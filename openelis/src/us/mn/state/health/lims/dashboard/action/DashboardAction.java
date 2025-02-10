@@ -55,7 +55,7 @@ public class DashboardAction extends BaseAction {
         String escapedTodaySampleNotCollectedListJson;
         String escapedBacklogSampleNotCollectedListJson;
         String escapedBacklogOrderListJson;
-        if (ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.allowLocationSelect, "true")) {
+        if (ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.allowLocationSelect, "true") && loginLocationId != null) {
             escapedTodayOrderListJson = asJson(orderListDAO.getAllToday(loginLocationId));
             escapedTodaySampleNotCollectedListJson = asJson(orderListDAO.getAllSampleNotCollectedToday(loginLocationId));
             escapedBacklogSampleNotCollectedListJson = asJson(orderListDAO.getAllSampleNotCollectedPendingBeforeToday(loginLocationId));

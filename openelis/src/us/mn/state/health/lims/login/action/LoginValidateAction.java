@@ -232,9 +232,9 @@ public class LoginValidateAction extends LoginBaseAction {
 			}	
 		}
 		if (ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.allowLocationSelect, "true")) {
-			return mapping.findForward(forward);
+			return mapping.findForward("forwardLoginLocation");
 		} else {
-			return mapping.findForward(FWD_DASHBOARD);
+			return mapping.findForward(FWD_SUCCESS);
 		}
 	}
 	

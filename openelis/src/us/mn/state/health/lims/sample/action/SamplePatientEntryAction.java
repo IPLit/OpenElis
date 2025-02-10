@@ -95,7 +95,7 @@ public class SamplePatientEntryAction extends BaseSampleEntryAction {
 		UserSessionData usd = (UserSessionData)request.getSession().getAttribute(USER_SESSION_DATA);
 		String loginLocationId = usd.getLoginLocationId();
 		List<SampleSource> sampleSourceList;
-		if (ConfigurationProperties.getInstance().isPropertyValueEqual(Property.allowLocationSelect, "true")) {
+		if (ConfigurationProperties.getInstance().isPropertyValueEqual(Property.allowLocationSelect, "true") && loginLocationId != null) {
 			SampleSource sampleSource = sampleSourceDAO.get(loginLocationId);
 			sampleSourceList = Collections.singletonList(sampleSource);
 		} else {

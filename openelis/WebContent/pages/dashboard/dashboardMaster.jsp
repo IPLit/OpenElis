@@ -337,11 +337,7 @@ var currentChosenArLanguageVar = false;
             var collectionDateStr=event.target.parentElement.getAttribute('collectionDateStr');
             labelSelected(event.target.parentElement.getAttribute('stNumber'), accessionNumber,collectionDateStr, jQuery)
         });
-
-
     });
-
-
 
     var printDiv = function printDiv(divId) {
         var divToPrint=document.getElementById(divId);
