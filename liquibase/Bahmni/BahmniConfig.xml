@@ -1885,5 +1885,33 @@
             <where>element_id='menu_patient_add_or_edit'</where>
         </update>
     </changeSet>
+    <changeSet id="20250328" author="iplit" context="bahmni">
+        <comment>Add modules and roles for the login location </comment>
+        <insert schemaName="clinlims" tableName="system_module">
+            <column name="id" valueNumeric=" nextval( 'system_module_seq' )  "/>
+            <column name="name" value="LoginLocation"/>
+            <column name="description" value="Login Location"/>
+            <column name="has_select_flag" value="Y"/>
+            <column name="has_add_flag" value="N"/>
+            <column name="has_update_flag" value="N"  />
+            <column name="has_delete_flag" value="N"/>
+        </insert>
+        <insert schemaName="clinlims" tableName="system_role">
+            <column name="id" valueNumeric=" nextVal( 'system_role_seq' ) "/>
+            <column name="name" value="LoginLocation"/>
+            <column name="description" value="Allow Location Selection"/>
+            <column name="is_grouping_role" value="f"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="editable" valueBoolean="false"/>
+        </insert>
+        <sql endDelimiter=";\n" splitStatements="true" stripComments="true">
+            insert into system_role_module
+            (id, has_select, has_add, has_update, has_delete, system_role_id, system_module_id)
+            select nextval( 'system_user_module_seq' ), 'Y', 'N', 'N', 'N', r.id, m.id
+            from system_role r, system_module m
+            where trim(r.name) = 'LoginLocation' and
+            m.name = 'LoginLocation'
+        </sql>
+    </changeSet>
 </databaseChangeLog>
 
