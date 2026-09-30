@@ -1,6 +1,7 @@
 <%@ page language="java"
 	contentType="text/html; charset=utf-8"
-	import="us.mn.state.health.lims.common.action.IActionConstants"
+	import="us.mn.state.health.lims.common.action.IActionConstants,
+	org.apache.struts.validator.Resources"
 %>
 
 <%@ taglib uri="/tags/struts-bean" prefix="bean" %>
@@ -21,6 +22,15 @@
         <html:button property="changePassword" styleId="changePasswordButton" onclick="setAction(window.document.forms[0], 'ChangePassword', 'no', '');" >
   		    <bean:message key="label.button.changePassword"/>
   		</html:button>
-    </td>        
-</tr>         
+    </td>
+</tr>
+<tr>
+    <td width="20%">&nbsp;</td>
+    <td width="110" noWrap>&nbsp;</td>
+    <td colspan="2">
+        <a class="log-out-link" 
+          href='<%=Resources.getMessage(request,"label.button.OAuthLogin.link")%>'>
+          <bean:message key="label.button.OAuthLogin"/></a>
+    </td>
+</tr>
 </table>

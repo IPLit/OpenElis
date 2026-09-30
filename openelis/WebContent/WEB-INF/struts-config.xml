@@ -4882,6 +4882,16 @@
           <forward name="fail" path="requestFormEntryPageDefinition" /> 
        </action>
                                      
+
+<!-- IPLit:Add kc user -->
+        <action path="/AddUnifiedSystemUser" name="unifiedSystemUserForm"
+                type="us.mn.state.health.lims.systemuser.action.UnifiedSystemUserAddAction"
+                validate="false">
+            <forward name="insertSuccess" path="/UnifiedSystemUser.do" redirect="true"/>
+            <forward name="success" path="/LabDashboard.do" redirect="true"/>
+            <forward name="fail" path="unifiedSystemUserDefinition"/>
+        </action>
+
 <!--LOGIN-->
         <action path="/LogoutPage" name="logoutForm" type="us.mn.state.health.lims.login.action.LogoutPageAction" validate="false">
             <forward name="success" path="/LoginPage.do"/>
@@ -4891,6 +4901,14 @@
             <forward name="success" path="loginPageDefinition"/>
             <forward name="fail" path="loginPageDefinition"/>
         </action>
+       <action path="/ValidateSSOLogin" name="loginValidateForm" type="us.mn.state.health.lims.login.action.LoginSSOValidateAction" validate="false">
+          <forward name="success" path="/LoginLocation.do"/>
+          <forward name="fail" path="/LoginPage.do"/>
+       </action>
+       <!-- <action path="/ValidateLogin" name="loginValidateForm" type="us.mn.state.health.lims.login.action.LoginValidateAction" validate="false"> -->
+          <!-- <forward name="success" path="/LoginLocation.do"/> -->
+          <!-- <forward name="fail" path="/LoginPage.do"/> -->
+       <!-- </action> -->
        <action path="/ValidateLogin" name="loginValidateForm" type="us.mn.state.health.lims.login.action.LoginValidateAction" validate="false">
           <forward name="forwardLoginLocation" path="/LoginLocation.do"/>
           <forward name="success" path="/LabDashboard.do"/>
@@ -4898,13 +4916,13 @@
           <!--bugzilla 2286-->
           <forward name="changePassword" path="/ChangePasswordLogin.do" />
        </action>
-        <action path="/LoginLocation" name="loginLocationForm" type="us.mn.state.health.lims.login.action.LoginLocationAction" validate="false">
+       <action path="/LoginLocation" name="loginLocationForm" type="us.mn.state.health.lims.login.action.LoginLocationAction" validate="false">
           <forward name="success" path="loginLocationDefinition"/>
           <forward name="forwardDashboard" path="/LabDashboard.do"/>
           <forward name="fail" path="/LoginPage.do"/>
           <!--bugzilla 2286-->
        </action>
-        <action path="/UpdateLoginLocation" name="loginLocationForm" type="us.mn.state.health.lims.login.action.LoginLocationUpdateAction" validate="false">
+       <action path="/UpdateLoginLocation" name="loginLocationForm" type="us.mn.state.health.lims.login.action.LoginLocationUpdateAction" validate="false">
           <forward name="success" path="/LabDashboard.do"/>
           <forward name="fail" path="/LoginPage.do"/>
           <!--bugzilla 2286-->

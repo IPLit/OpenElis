@@ -41,7 +41,7 @@ public class ResultsPaging {
 		paging.setDatabaseResults(request.getSession(), tests, pagingHelper);
 		
 		List<TestResultItem> resultPage = paging.getPage(1, request.getSession());
-		if (resultPage != null) {
+		if (resultPage != null && dynaForm!=null) {
 			PropertyUtils.setProperty(dynaForm, "testResult", resultPage);
 			PropertyUtils.setProperty(dynaForm, "paging", paging.getPagingBeanWithSearchMapping(1, request.getSession()));
 		}
@@ -152,4 +152,9 @@ public class ResultsPaging {
 			return mappingList;
 		}
 	}
+
+	public void updatePagedResults(HttpServletRequest request, PagingBean pagingBean) {
+		paging.updatePagedResults(request.getSession(), pagingBean, pagingHelper);
+	}
+
 }

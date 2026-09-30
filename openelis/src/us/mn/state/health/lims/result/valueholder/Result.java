@@ -22,6 +22,9 @@ import us.mn.state.health.lims.common.valueholder.ValueHolder;
 import us.mn.state.health.lims.common.valueholder.ValueHolderInterface;
 import us.mn.state.health.lims.note.valueholder.Note;
 import us.mn.state.health.lims.testresult.valueholder.TestResult;
+import org.apache.commons.lang3.StringEscapeUtils;
+
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -77,6 +80,7 @@ public class Result extends EnumValueItemImpl {
 		this.analyte = analyte;
 	}
 
+	@JsonSetter
 	public void setAnalyte(Analyte analyte) {
 		this.analyte.setValue(analyte);
 	}
@@ -123,7 +127,7 @@ public class Result extends EnumValueItemImpl {
 	}
 
 	public String getValue() {
-		return value;
+		return StringEscapeUtils.unescapeHtml4(value);
 	}
 
 	public void setValue(String value) {

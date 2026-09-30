@@ -865,4 +865,19 @@ public class SampleDAOImpl extends BaseDAOImpl implements SampleDAO {
 			throw new LIMSRuntimeException("Error in Sample getSampleByID(String id)", he);
 		}
 	}
+
+    public List<Sample> getAllSamplesByAccessionNumber(String accessionNumber)
+			throws LIMSRuntimeException {
+		try {
+			String sql = "from Sample s where accession_number = :param";
+			Query query = HibernateUtil.getSession().createQuery(sql);
+
+			query.setParameter("param", accessionNumber);
+			List<Sample> list = query.list();
+			return list;
+		} catch (Exception e) {
+			throw new LIMSRuntimeException("Exception occurred in getAllSamplesByAccessionNumber", e);
+		}
+	}
+
 }

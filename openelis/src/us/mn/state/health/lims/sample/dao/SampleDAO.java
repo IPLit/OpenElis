@@ -90,4 +90,7 @@ public interface SampleDAO extends BaseDAO {
 	public Sample getSampleByID(String id) throws LIMSRuntimeException;
 
 	public Sample getSampleByUuidAndSampleTypeIdAndWithoutAccessionNumber(String uuid, String sampleTypeId);
+
+	public List<Sample> getAllSamplesByAccessionNumber(String accessionNumber) throws LIMSRuntimeException;
+
 }

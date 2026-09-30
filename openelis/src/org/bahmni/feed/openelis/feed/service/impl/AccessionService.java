@@ -161,7 +161,6 @@ public class AccessionService {
         return DateFormatUtils.format(timestamp.getTime(), DateFormatUtils.ISO_DATETIME_FORMAT.getPattern());
     }
 
-
     private void mapSampleItem(List<TestDetail> testDetails, SampleItem sampleItem) {
         for (Analysis analysis : sampleItem.getAnalyses()) {
             mapAnalysis(testDetails, analysis);

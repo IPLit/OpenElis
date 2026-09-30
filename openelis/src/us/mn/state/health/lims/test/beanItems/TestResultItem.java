@@ -17,8 +17,12 @@
 */
 package us.mn.state.health.lims.test.beanItems;
 
+
 import org.apache.commons.validator.GenericValidator;
 import org.apache.struts.upload.FormFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import us.mn.state.health.lims.common.util.IdValuePair;
 import us.mn.state.health.lims.result.action.util.ResultItem;
 import us.mn.state.health.lims.result.valueholder.Result;
@@ -28,6 +32,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TestResultItem implements ResultItem, Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -51,6 +59,9 @@ public class TestResultItem implements ResultItem, Serializable{
 	private static String YES = "yes";
 
     public boolean isResultValueBlankOrNull() {
+		if (getResult()==null) {
+            return true;
+        }
         return GenericValidator.isBlankOrNull(getResult().getValue());
     }
 
@@ -98,6 +109,8 @@ public class TestResultItem implements ResultItem, Serializable{
 	private String analysisId;
 	private String analysisStatusId;
 	private String resultId;
+
+	@JsonBackReference
 	private Result result;
 	private String technicianSignatureId;
 	private String supervisorSignatureId;
@@ -654,14 +667,16 @@ public class TestResultItem implements ResultItem, Serializable{
         StringBuilder map = new StringBuilder();
 
         List<IdValuePair> abnormalResults = getAbnormalTestResult();
-        for (int i = 0; i < abnormalResults.size(); i++) {
-            map.append("{");
-            map.append("'id':'").append(abnormalResults.get(i).getId()).append("'");
-            map.append(",");
-            map.append("'value':'").append(abnormalResults.get(i).getValue()).append("'");
-            map.append("}");
-            if (i < abnormalResults.size() - 1)
-                map.append(",");
+        if (abnormalResults!=null) {
+	        for (int i = 0; i < abnormalResults.size(); i++) {
+	            map.append("{");
+	            map.append("'id':'").append(abnormalResults.get(i).getId()).append("'");
+	            map.append(",");
+	            map.append("'value':'").append(abnormalResults.get(i).getValue()).append("'");
+	            map.append("}");
+	            if (i < abnormalResults.size() - 1)
+	                map.append(",");
+	        }
         }
         return map.toString();
     }

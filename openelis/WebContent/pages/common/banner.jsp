@@ -71,7 +71,7 @@ function displayHelp(){
 
 <div id="header">
   <div id="oe-logo">
-    <img src="images/openelis_logo.png" title="OpenELIS" alt="OpenELIS" />   
+    <img src="images/openelis_logo.png" title="OpenELIS" alt="OpenELIS" />
   </div>
 </div>
 
@@ -121,13 +121,13 @@ function displayHelp(){
 				}
 			%>
   	  		<div id="oe-title" onclick="navigateToHomePage();"><%=StringUtil.getContextualMessageForKey("title.default")%></div>
-  		</div>  
+  		</div>
   		<div id="oe-version" style="display: block">
     		<div id="appVersion">
     		<bean:message key="ellis.version" />:&nbsp;
 		    <%= ConfigurationProperties.getInstance().getPropertyValue(Property.releaseNumber)%> (<%= ConfigurationProperties.getInstance().getPropertyValue(Property.buildNumber) %>)&nbsp;&nbsp;&nbsp;
 	        </div>
-    
+
 		    <% if("true".equals(ConfigurationProperties.getInstance().getPropertyValueLowerCase(Property.TrainingInstallation))){ %>
 		      <div id="training-alert"><span title="<bean:message key="training.note"/>"><bean:message key="training.note"/></span></div>
 		    <% } %>
@@ -159,9 +159,9 @@ function displayHelp(){
     <select onchange="setLanguage(this.options[this.selectedIndex].value)">
         <option selected></option>
         <option value="en_US"><bean:message bundle="setOfLanguagesBundle" key="en_US"/></option>
-<!--         <option value="fr-FR"><bean:message bundle="setOfLanguagesBundle" key="fr-FR"/></option>
+        <option value="fr-FR"><bean:message bundle="setOfLanguagesBundle" key="fr-FR"/></option>
         <option value="es-ES"><bean:message bundle="setOfLanguagesBundle" key="es-ES"/></option>
-		<option value="pt-BR"><bean:message bundle="setOfLanguagesBundle" key="pt-BR"/></option> -->
+		<option value="pt-BR"><bean:message bundle="setOfLanguagesBundle" key="pt-BR"/></option>
 		<option value="ar-AR"><bean:message bundle="setOfLanguagesBundle" key="ar-AR"/></option>
     </select>
   </div>

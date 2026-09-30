@@ -80,7 +80,7 @@ public class OrderListDAOImpl implements OrderListDAO {
 
     @Override
     public List<Order> getAllPendingBeforeToday(String loginLocationId) {
-        String condition = "sample.accession_number is not null and sample.sample_source_id = "+ loginLocationId + "and analysis.status_id IN (" + getAllAnalysisStatus() + ")";
+        String condition = "sample.accession_number is not null and sample.sample_source_id = "+ loginLocationId + " and analysis.status_id IN (" + getAllAnalysisStatus() + ")";
         return getOrders(orderListDAOHelper.createSqlForPendingBeforeToday(condition, "sample.accession_number",
                 getPendingAnalysisStatus(), getPendingValidationAnalysisStatus(), getReferredAnalysisStatus(),analysesInFinalStatus()));
     }
@@ -88,7 +88,7 @@ public class OrderListDAOImpl implements OrderListDAO {
     @Override
     public List<Order> getAllSampleNotCollectedToday(String loginLocationId) {
         List<Order> orderList = new ArrayList<>();
-        String sqlForAllSampleNotCollectedToday = orderListDAOHelper.createSqlForToday("sample.accession_number is null and sample.sample_source_id = "+ loginLocationId + "and analysis.status_id IN (" + getAllNonReferredAnalysisStatus() + ")",
+        String sqlForAllSampleNotCollectedToday = orderListDAOHelper.createSqlForToday("sample.accession_number is null and sample.sample_source_id = "+ loginLocationId + " and analysis.status_id IN (" + getAllNonReferredAnalysisStatus() + ")",
                 "sample.lastupdated", getPendingAnalysisStatus(), getPendingValidationAnalysisStatus(),getReferredAnalysisStatus(), getCompletedStatus());
 
         ResultSet sampleNotCollectedToday = null;
