@@ -22,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OpenMRSPersonAttributeType {
     public static final String PRIMARY_RELATIVE = "primaryRelative";
+    public static final String PATIENT_RELATIVE_NAME = "Patient Relative Name";
+    public static final String PATIENT_RELATIVE_TYPE = "Patient Relative";
     public static final String OCCUPATION = "occupation";
     private String display;
 

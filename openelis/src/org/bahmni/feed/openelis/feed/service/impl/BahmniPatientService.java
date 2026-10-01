@@ -61,6 +61,8 @@ public class BahmniPatientService {
     private AuditingService auditingService;
 
     public static final String PRIMARY_RELATIVE_KEY_NAME = "PRIMARYRELATIVE";
+    public static final String PATIENT_RELATIVE_KEY_NAME = "PATIENT RELATIVE NAME";
+    public static final String PATIENT_RELATIVE_KEY = "PATIENT RELATIVE";
     public static final String OCCUPATION_KEY_NAME = "OCCUPATION";
     public static final String REGISTRATION_KEY_NAME = "ST";
 
@@ -127,6 +129,8 @@ public class BahmniPatientService {
         PatientIdentities patientIdentities = new PatientIdentities(patientIdentityDAO.getPatientIdentitiesForPatient(patient.getId()));
 
         addOrUpdate(patient, patientIdentityTypes, patientIdentities, PRIMARY_RELATIVE_KEY_NAME, getAttributeValue(openMRSPerson, OpenMRSPersonAttributeType.PRIMARY_RELATIVE), sysUserId);
+        addOrUpdate(patient, patientIdentityTypes, patientIdentities, PATIENT_RELATIVE_KEY, getAttributeValue(openMRSPerson, OpenMRSPersonAttributeType.PATIENT_RELATIVE_TYPE), sysUserId);
+        addOrUpdate(patient, patientIdentityTypes, patientIdentities, PATIENT_RELATIVE_KEY_NAME, getAttributeValue(openMRSPerson, OpenMRSPersonAttributeType.PATIENT_RELATIVE_NAME), sysUserId);
         addOrUpdate(patient, patientIdentityTypes, patientIdentities, OCCUPATION_KEY_NAME, getAttributeDisplay(openMRSPerson, OpenMRSPersonAttributeType.OCCUPATION), sysUserId);
     }
 
@@ -189,6 +193,14 @@ public class BahmniPatientService {
         String primaryRelative = getAttributeValue(openMRSPerson, OpenMRSPersonAttributeType.PRIMARY_RELATIVE);
         if (primaryRelative != null) {
             addPatientIdentity(patient, patientIdentityTypes, PRIMARY_RELATIVE_KEY_NAME, primaryRelative, sysUserId);
+        }
+        String patientRelative = getAttributeValue(openMRSPerson, OpenMRSPersonAttributeType.PATIENT_RELATIVE_TYPE);
+        if (patientRelative != null) {
+            addPatientIdentity(patient, patientIdentityTypes, PATIENT_RELATIVE_KEY, patientRelative, sysUserId);
+        }
+        String patientRelativeName = getAttributeValue(openMRSPerson, OpenMRSPersonAttributeType.PATIENT_RELATIVE_NAME);
+        if (patientRelativeName != null) {
+            addPatientIdentity(patient, patientIdentityTypes, PATIENT_RELATIVE_KEY_NAME, patientRelativeName, sysUserId);
         }
         String occupation = getAttributeDisplay(openMRSPerson, OpenMRSPersonAttributeType.OCCUPATION);
         if (occupation != null) {

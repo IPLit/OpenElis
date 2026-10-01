@@ -67,6 +67,7 @@ public class HaitiClinicalPatientData {
     private String orderDate;
     private String patientSiteNumber;
     private String primaryRelative;
+    private String guardian;
     private String resultType;
     private boolean abnormal;
 
@@ -460,4 +461,12 @@ public class HaitiClinicalPatientData {
     public boolean isAbnormal() {
         return abnormal;
     }
+
+	public String getGuardian() {
+		return guardian;
+	}
+
+	public void setGuardian(String guardian) {
+		this.guardian = guardian;
+	}
 }

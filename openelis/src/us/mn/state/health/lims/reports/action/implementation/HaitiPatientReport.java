@@ -156,6 +156,8 @@ public abstract class HaitiPatientReport extends Report {
     protected static String HEALTH_REGION_IDENTITY_TYPE_ID = "0";
     protected static String HEALTH_DISTRICT_IDENTITY_TYPE_ID = "0";
     protected static String PRIMARYRELATIVE_IDENTITY_TYPE_ID = "0";
+    protected static String PATIENT_RELATIVE_IDENTITY_TYPE_ID = "0";
+    protected static String PATIENT_RELATIVE_NAME_IDENTITY_TYPE_ID = "0";
     protected static String LAB_TYPE_OBSERVATION_ID = "0";
     protected static String LAB_SUBTYPE_OBSERVATION_ID = "0";
     protected static Long PROVIDER_REQUESTER_TYPE_ID;
@@ -178,6 +180,10 @@ public abstract class HaitiPatientReport extends Report {
                 HEALTH_DISTRICT_IDENTITY_TYPE_ID = identityType.getId();
             } else if ("PRIMARYRELATIVE".equals(identityType.getIdentityType())) {
                 PRIMARYRELATIVE_IDENTITY_TYPE_ID = identityType.getId();
+            } else if ("PATIENT RELATIVE".equals(identityType.getIdentityType())) {
+                PATIENT_RELATIVE_IDENTITY_TYPE_ID = identityType.getId();
+            } else if ("PATIENT RELATIVE NAME".equals(identityType.getIdentityType())) {
+                PATIENT_RELATIVE_NAME_IDENTITY_TYPE_ID = identityType.getId();
             }
         }
 
@@ -473,7 +479,9 @@ public abstract class HaitiPatientReport extends Report {
                 }
             }
         }
-
+        if (identity == null) {
+            identity = " ";
+        }
         return identity;
     }
 
@@ -767,6 +775,9 @@ public abstract class HaitiPatientReport extends Report {
         data.setCommune(patientCommune);
         data.setStNumber(getLazyPatientIdentity(STNumber, ST_NUMBER_IDENTITY_TYPE_ID));
         data.setPrimaryRelative(getLazyPatientIdentity(null, PRIMARYRELATIVE_IDENTITY_TYPE_ID));
+        String patientRelativeIdentity = getLazyPatientIdentity(null, PATIENT_RELATIVE_IDENTITY_TYPE_ID);
+        String patientRelativeNameIdentity = getLazyPatientIdentity(null, PATIENT_RELATIVE_NAME_IDENTITY_TYPE_ID);
+        data.setGuardian(patientRelativeIdentity + "/" + patientRelativeNameIdentity);
         data.setSubjectNumber(getLazyPatientIdentity(subjectNumber, SUBJECT_NUMBER_IDENTITY_TYPE_ID));
         data.setHealthRegion(getLazyPatientIdentity(healthRegion, HEALTH_REGION_IDENTITY_TYPE_ID));
         data.setHealthDistrict(getLazyPatientIdentity(healthDistrict, HEALTH_DISTRICT_IDENTITY_TYPE_ID));
