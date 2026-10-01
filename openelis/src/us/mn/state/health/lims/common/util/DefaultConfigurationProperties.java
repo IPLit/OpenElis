@@ -97,6 +97,7 @@ public class DefaultConfigurationProperties extends ConfigurationProperties {
         setDBPropertyMappingAndDefault(Property.flagForShowingTestStatus, "flagForShowingTestStatus","false");
 		setDBPropertyMappingAndDefault(Property.showColumnsForTodayCollectedTab, "showColumnsForTodayCollectedTab", "true" );
 		setDBPropertyMappingAndDefault(Property.allowLocationSelect, "allowLocationSelect", "false");
+		setDBPropertyMappingAndDefault(Property.allowSSOLogin, "allowSSOLogin", "false");
 	}
 
 	private void setDBPropertyMappingAndDefault(Property property, String dbName, String defaultValue) {

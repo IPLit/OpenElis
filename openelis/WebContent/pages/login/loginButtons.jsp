@@ -1,7 +1,8 @@
 <%@ page language="java"
 	contentType="text/html; charset=utf-8"
 	import="us.mn.state.health.lims.common.action.IActionConstants,
-	org.apache.struts.validator.Resources"
+	org.apache.struts.validator.Resources,
+    us.mn.state.health.lims.common.util.SystemConfiguration"
 %>
 
 <%@ taglib uri="/tags/struts-bean" prefix="bean" %>
@@ -24,6 +25,7 @@
   		</html:button>
     </td>
 </tr>
+<% if (SystemConfiguration.getInstance().getSSOLogin().equalsIgnoreCase("true")) { %>
 <tr>
     <td width="20%">&nbsp;</td>
     <td width="110" noWrap>&nbsp;</td>
@@ -33,4 +35,5 @@
           <bean:message key="label.button.OAuthLogin"/></a>
     </td>
 </tr>
+<% } %>
 </table>

@@ -1913,5 +1913,21 @@
             m.name = 'LoginLocation'
         </sql>
     </changeSet>
+    <changeSet author="iplit" id="20261001" context="bahmni">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from clinlims.site_information where name='allowSSOLogin';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adds allowSSOLogin to site_information</comment>
+        <insert schemaName="clinlims" tableName="site_information">
+            <column name="id" valueNumeric=" nextval( 'site_information_seq' ) "/>
+            <column name="name" value="allowSSOLogin"/>
+            <column name="lastupdated" valueDate=" now() "/>
+            <column name="description" value="Allows the user to login as SSO"/>
+            <column name="domain_id" valueNumeric=" (select id from clinlims.site_information_domain where name = 'siteIdentity' ) " />
+            <column name="value" value="false"/>
+            <column name="value_type" value="boolean" />
+        </insert>
+    </changeSet>
 </databaseChangeLog>
-

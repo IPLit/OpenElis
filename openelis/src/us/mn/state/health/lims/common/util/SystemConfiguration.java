@@ -998,4 +998,12 @@ public class SystemConfiguration {
 	public void setProperty( String property, String value){
 		properties.setProperty(property, value);
 	}
+
+	public String getSSOLogin() {
+		String isSSOLogin = ConfigurationProperties.getInstance().getPropertyValue(Property.allowSSOLogin);
+		if(isSSOLogin == null){
+			isSSOLogin = "false";
+		}
+		return isSSOLogin;
+	}
 }

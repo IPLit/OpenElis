@@ -88,7 +88,8 @@ public abstract class ConfigurationProperties {
                              ST_NUMBER_FORMAT,
 		                     flagForShowingTestStatus,
 							 showColumnsForTodayCollectedTab,
-							 allowLocationSelect
+							 allowLocationSelect,
+							 allowSSOLogin
 	};
 
 	
