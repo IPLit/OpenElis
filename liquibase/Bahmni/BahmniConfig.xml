@@ -1930,4 +1930,53 @@
             <column name="value_type" value="boolean" />
         </insert>
     </changeSet>
+    <changeSet id="BAH4572802241425" context="bahmni" author="bahmni" >
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from clinlims.site_information where name = 'accessionStrategy' and value='';
+            </sqlCheck>
+        </preConditions>
+        <comment>set the accession strategy to groupbySample to show the priority column on ui</comment>
+        <sql >
+            UPDATE site_information
+            SET value = 'groupBySample'
+            WHERE name = 'accessionStrategy';
+        </sql>
+    </changeSet>
+
+    <changeSet id="BAH3908_test_table" context="bahmni" author="Mohankumar" >
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="test" columnName="name"/>
+            <columnExists tableName="test" columnName="description"/>
+        </preConditions>
+        <comment>Extend the size of name and description columns of Test table</comment>
+        <sql>
+            ALTER TABLE test ALTER COLUMN name TYPE varchar(256);
+            ALTER TABLE test ALTER COLUMN description TYPE varchar(256);
+        </sql>
+    </changeSet>
+    <changeSet id="BAH3908_panel_table" context="bahmni" author="Mohankumar" >
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="panel" columnName="name"/>
+            <columnExists tableName="panel" columnName="description"/>
+        </preConditions>
+        <comment>Extend the size of name and description columns of Panel table</comment>
+        <sql>
+            ALTER TABLE panel ALTER COLUMN name TYPE varchar(256);
+            ALTER TABLE panel ALTER COLUMN description TYPE varchar(256);
+        </sql>
+    </changeSet>
+
+    <changeSet id="fix-uploaded-files-parent-directory" context="bahmni" author="bahmni">
+        <comment>Fix parentOfUploadedFilesDirectory to match Docker volume mount path.
+            Files were being saved to /home/jss/uploaded_results/ which is not volume-mounted,
+            causing uploaded PDFs to disappear. The correct path is /home/bahmni to match
+            the Docker volume mounts for bahmni-lab-results and bahmni-uploaded-files.
+        </comment>
+        <update schemaName="clinlims" tableName="site_information">
+            <column name="value" value="/home/bahmni"/>
+            <where>name='parentOfUploadedFilesDirectory'</where>
+        </update>
+    </changeSet>
+
 </databaseChangeLog>

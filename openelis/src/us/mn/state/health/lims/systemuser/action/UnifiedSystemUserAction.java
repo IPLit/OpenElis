@@ -79,7 +79,6 @@ public class UnifiedSystemUserAction extends BaseAction {
 		}
 	}
 
-
 	protected ActionForward performAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 

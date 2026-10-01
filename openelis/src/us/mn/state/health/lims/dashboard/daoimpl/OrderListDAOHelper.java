@@ -2,7 +2,6 @@ package us.mn.state.health.lims.dashboard.daoimpl;
 
 import org.apache.commons.lang3.StringUtils;
 import us.mn.state.health.lims.dashboard.valueholder.Order;
-import us.mn.state.health.lims.login.valueholder.UserSessionData;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
