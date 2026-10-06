@@ -23,10 +23,9 @@ String path = "";
 String basePath = "";
 String serverNow = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 Boolean alwaysValidate = ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.ALWAYS_VALIDATE_RESULTS, "true");
-Boolean showReferredTestsCount = ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.SHOW_REFERRED_TESTS_COUNT, "false");
+Boolean showReferredTestsCount = ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.SHOW_REFERRED_TESTS_COUNT, "true");
 Boolean showPatientsDetailsInSampleLabelPrint = ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.SHOW_PATIENT_DETAILS_SAMPLE_LABEL_PRINT, "true");
-Boolean	showExtraColumns = "true".equals(ConfigurationProperties.getInstance().getPropertyValue(ConfigurationProperties.Property.showColumnsForTodayCollectedTab));
-
+Boolean showExtraColumns = ConfigurationProperties.getInstance().isPropertyValueEqual(ConfigurationProperties.Property.showColumnsForTodayCollectedTab, "true");
 
 String chosenLanguage = "";
 Boolean currentChosenArLanguage = false;
