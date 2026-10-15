@@ -335,7 +335,7 @@ public class ResultsLoadUtility {
         return selectedTestList;
     }
 
-    private String getSTNumber(Patient patient) {
+    public String getSTNumber(Patient patient) {
         PatientIdentityDAOImpl patientIdentityDAO = new PatientIdentityDAOImpl();
         PatientIdentityTypeDAOImpl patientIdentityTypeDAO = new PatientIdentityTypeDAOImpl();
         PatientIdentityType identityType = patientIdentityTypeDAO.getNamedIdentityType("ST");
@@ -344,7 +344,7 @@ public class ResultsLoadUtility {
     }
 
 
-    private String getDisplayNameForCurrentPatient(String firstName ,String lastName) {
+    public String getDisplayNameForCurrentPatient(String firstName ,String lastName) {
         StringBuilder nameBuilder = new StringBuilder();
         if (!GenericValidator.isBlankOrNull(firstName)) {
             nameBuilder.append(firstName);
@@ -559,7 +559,7 @@ public class ResultsLoadUtility {
         return testResultType;
     }
 
-    private Patient getPatientForSampleItem(SampleItem sampleItem) {
+    public Patient getPatientForSampleItem(SampleItem sampleItem) {
         SampleHumanDAO sampleHumanDAO = new SampleHumanDAOImpl();
         return sampleHumanDAO.getPatientForSample(sampleItem.getSample());
     }

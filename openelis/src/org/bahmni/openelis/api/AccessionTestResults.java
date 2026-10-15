@@ -40,6 +40,7 @@ import us.mn.state.health.lims.statusofsample.util.StatusOfSampleUtil.AnalysisSt
 import us.mn.state.health.lims.systemuser.daoimpl.SystemUserDAOImpl;
 import us.mn.state.health.lims.systemuser.valueholder.SystemUser;
 import us.mn.state.health.lims.test.beanItems.TestResultItem;
+import us.mn.state.health.lims.test.valueholder.Test;
 import us.mn.state.health.lims.testanalyte.valueholder.TestAnalyte;
 import us.mn.state.health.lims.testresult.dao.TestResultDAO;
 import us.mn.state.health.lims.testresult.daoimpl.TestResultDAOImpl;
@@ -98,6 +99,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 @MultipartConfig
 public class AccessionTestResults extends HttpServlet {
 
+    private Patient patient;
+    private ResultsLoadUtility resultsUtility;
     private List<TestResultItem> modifiedItems;
     private List<ResultSet> modifiedResults;
     private List<ResultSet> newResults;
@@ -156,6 +159,7 @@ public class AccessionTestResults extends HttpServlet {
             ResultsPaging paging = new ResultsPaging();
 
             try {
+                resultsUtility = new ResultsLoadUtility(currentUserId);
                 PagingBean pagingBean = objectMapper.readValue(pagingStr.trim().getBytes("UTF-8"), PagingBean.class);
                 paging.updatePagedResults(request, pagingBean);
                 String testResultStr = request.getParameter("testResult");
@@ -260,7 +264,7 @@ public class AccessionTestResults extends HttpServlet {
     
             if (!GenericValidator.isBlankOrNull(accessionNumber)) {
                 currentUserId = getSysUserId(request);
-                ResultsLoadUtility resultsUtility = new ResultsLoadUtility(currentUserId);
+                 resultsUtility = new ResultsLoadUtility(currentUserId);
                 //This is for Haiti_LNSP if it gets more complicated use the status set stuff
                 resultsUtility.addExcludedAnalysisStatus(AnalysisStatus.ReferredIn);
                 resultsUtility.addExcludedAnalysisStatus(AnalysisStatus.Canceled);
@@ -334,11 +338,29 @@ public class AccessionTestResults extends HttpServlet {
     }
 
     private void createResultsFromItems() {
+        String patientName = "";
+        String patientInfo = "";
+        String patientIdentity = "";
+        if (modifiedItems!=null && modifiedItems.size() > 0) {
+            Analysis analysis = analysisDAO.getAnalysisById(modifiedItems.get(0).getAnalysisId());
+            patient = resultsUtility.getPatientForSampleItem(analysis.getSampleItem());
+            patientName = resultsUtility.getDisplayNameForCurrentPatient(patient.getEpiFirstName(), patient.getEpiLastName());
+            patientInfo = patient.getNationalId() + ", " + patient.getGender() + ", " + patient.getBirthDateForDisplay();
+            patientIdentity = resultsUtility.getSTNumber(patient);
+        }
+
         for (TestResultItem testResultItem : modifiedItems) {
+            Analysis analysis = analysisDAO.getAnalysisById(testResultItem.getAnalysisId());
+            Test test = analysis.getTest();
+            ResultLimit resultLimit = resultsUtility.getResultLimitForTestAndPatient(test, patient);
+            if (resultLimit!=null)
+                testResultItem.setResultLimitId(resultLimit.getId());
+            testResultItem.setPatientName(patientName);
+            testResultItem.setPatientIdentity(patientIdentity);
+            testResultItem.setPatientInfo(patientInfo);
             if (GenericValidator.isBlankOrNull(testResultItem.getTechnician())) {
                 testResultItem.setTechnician(currentUserName);
             }
-            Analysis analysis = analysisDAO.getAnalysisById(testResultItem.getAnalysisId());
             createFileForResult(testResultItem);
             List<Result> results = createResultFromTestResultItem(testResultItem, analysis);
 
@@ -418,15 +440,15 @@ public class AccessionTestResults extends HttpServlet {
         }
 
         Sample sample = sampleDAO.getSampleByAccessionNumber(testResultItem.getAccessionNumber());
-        Patient patient = null;
+        // Patient patient = null;
 
         if ("H".equals(sample.getDomain())) {
             SampleHuman sampleHuman = new SampleHuman();
             sampleHuman.setSampleId(sample.getId());
             sampleHumanDAO.getDataBySample(sampleHuman);
 
-            patient = new Patient();
-            patient.setId(sampleHuman.getPatientId());
+            // patient = new Patient();
+            // patient.setId(sampleHuman.getPatientId());
         }
 
         Referral referral = null;
